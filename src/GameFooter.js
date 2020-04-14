@@ -10,33 +10,45 @@ class GameFooter extends Component {
   }
 
   checkValue = (event) => {
-      const index = this.state.words.indexOf(event.target.value)
-      if (index > -1) {
-          console.log(event.target.value)
-        this.setState(this.state.words.splice(index, 1));
-        this.setState({value: ''})
-        event.target.value = ''
-      }
-  }
+    const index = this.state.words.indexOf(event.target.value);
+    if (index > -1) {
+      console.log(event.target.value);
+      this.setState(this.state.words.splice(index, 1));
+      this.setState({ value: "" });
+      event.target.value = "";
+    }
+  };
 
   handleChange = (event) => {
     console.log(event.target.value);
     this.setState({ value: event.target.value });
-    this.checkValue(event)
+    this.checkValue(event);
   };
 
   render() {
     return (
       <div
-        style={{
+      
+      >
+        <div
+          style={{
           display: "flex",
           justifyContent: "center",
         }}
-      >
-        <form>
-          <input type="text" name="name" onChange={this.handleChange} />
-        </form>
-        <h3>Game Footer</h3>
+        >
+          {" "}
+          <h3>Game Footer</h3>{" "}
+        </div>
+        <div
+          style={{
+          display: "flex",
+          justifyContent: "center",
+        }}
+        >
+          <form>
+            <input type="text" name="name" onChange={this.handleChange} />
+          </form>
+        </div>
       </div>
     );
   }
