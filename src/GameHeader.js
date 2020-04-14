@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import logo from './sprites/logo/KeySword.png'
 
 class GameHeader extends Component {
     render() {
@@ -7,7 +8,7 @@ class GameHeader extends Component {
                 display: 'flex',
                 justifyContent: 'center'
             }}>
-                <h1>KeySword</h1>
+                <img src={logo}></img>
             </div>
         )
     }
