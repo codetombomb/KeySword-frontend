@@ -5,8 +5,6 @@ class GameFooter extends Component {
     super(props);
     this.state = { value: "", words: this.props.words };
 
-    // this.handleChange = this.handleChange.bind(this);
-    // this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   checkValue = (event) => {
