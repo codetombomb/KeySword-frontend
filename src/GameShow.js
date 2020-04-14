@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import TileSheetOne from './sprites/maps/tile_sheet01.png'
 
 //WILL HAVE TO REMOBVE THIS ONCE THE INFORMATION FOR THE BACKGROUND IMAGE IS CAPTURED FROM THE INITIAL FETCH
-import LevelOneBackGround from './sprites/maps/level_one_background.png'
+// import LevelOneBackGround from './sprites/maps/level_one_background.png'
+import Hero from './Hero';
 
 class GameShow extends Component {
     constructor() {
@@ -37,7 +38,7 @@ class GameShow extends Component {
                 64, 21, 23, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64,
                 64, 29, 54, 51, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64,
                 22, 55, 55, 31, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64,
-                64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64,
+                64, 64, 64, 64, 64, 64, 64, 64, 61, 63, 64, 64, 64, 64, 64, 64, 64, 64, 64,
                 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64,
             ],
             backgroundMatrix: [
@@ -56,7 +57,7 @@ class GameShow extends Component {
         }
     }
 
-    /*
+    /*  Tilesheet Reference
     00 01 02 03 04 05 06 07
     08 09 10 11 12 13 14 15 
     16 17 18 19 20 21 22 23
@@ -65,7 +66,6 @@ class GameShow extends Component {
     40 41 42 43 44 45 46 47 
     48 49 50 51 52 53 54 55
     56 57 58 59 60 61 62 63 
-   
     */
     componentDidMount() {
         const cvs = document.getElementById("gameCanvas")
@@ -118,22 +118,11 @@ class GameShow extends Component {
         tile.onload = () => {
 
             for (let i = this.state.foregroundMatrix.length - 1; i > -1; --i) {
-
                 let worldMatrix = this.state.foregroundMatrix[i]
-                console.log(`WorldMatrix ${worldMatrix}`)
-
                 let source_x = (worldMatrix % this.state.tileSheetColumns) * this.state.tileWidth
-                console.log(`source_x${source_x}`)
-
                 let source_y = Math.floor(worldMatrix / this.state.tileSheetColumns) * this.state.tileHeight
-                console.log(`source_y${source_y}`)
-
                 let destination_x = (i % this.state.matrixColumns) * this.state.tileWidth
-                console.log(`destination_x${destination_x}`)
-
                 let destination_y = Math.floor(i / this.state.matrixColumns) * this.state.tileHeight
-                console.log(`destination_y${destination_y}`)
-                // debugger
                 this.state.context.drawImage(tile, source_x, source_y, 16, 16, destination_x, destination_y, this.state.tileWidth, this.state.tileHeight)
                 //        void ctx.drawImage(image,      sx,       sy, sWidth, sHeight,            dx,            dy,              bdWidth,               dHeight);
             }
@@ -155,7 +144,7 @@ class GameShow extends Component {
                 backgroundColor: 'grey'
             }}
             >
-
+                <Hero context={this.state.context}/>
             </canvas>
         )
     }
