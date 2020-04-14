@@ -4,8 +4,8 @@
 
 - [ ] 1. Front end framework built, basically styled and connected 🏃🏾‍♂️⚡️
 
-    - [ ] 1.1 gameContainer component
-        - [ ] 1.1.1 Should contain gameHeader, gameFooter, and gameShow as well as hold a state
+    - [x] 1.1 gameContainer component
+        - [x] 1.1.1 Should contain gameHeader, gameFooter, and gameShow as well as hold a state
    
     - [ ] 1.2 gameHeader component 💀
         - [ ] 1.2.1 Should hold props passed down from gameContainer as well as its own state
@@ -17,7 +17,7 @@
 
      - [ ] 1.4 gameShow component 🖥
         - [ ] 1.4.1 Should hold props passed down from gameContainer as well as its own state
-        - [ ] 1.4.2 Should hold canvas component
+        - [x] 1.4.2 Should hold canvas component
              
     - [ ] 1.5 loginBar component 🤷🏽‍♂️
         - [ ] 1.5.1 Stretch goal?? 
