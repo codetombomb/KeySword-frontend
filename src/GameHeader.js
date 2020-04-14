@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
 import logo from './sprites/logo/KeySword.png'
+import background from './sprites/backgrounds/stonebackground.jpg'
 
 class GameHeader extends Component {
     render() {
         return (
             <div style={{
                 display: 'flex',
-                justifyContent: 'center'
-            }}>
+                justifyContent: 'center',
+                backgroundImage:`url(${background})`
+            }}
+            >
                 <img src={logo}></img>
             </div>
         )
