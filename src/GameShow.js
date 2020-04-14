@@ -17,16 +17,28 @@ class GameShow extends Component {
             tileWidth: 16,
             matrixColumns: 19,
             foregroundMatrix: [
-                64, 64, 43, 35, 17, 28, 20, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64,
-                64, 64, 64, 43, 35, 17, 11, 20, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64,
-                64, 64, 64, 64, 24, 4, 17, 11, 9, 10, 64, 64, 64, 64, 64, 64, 64, 64, 64,
-                64, 64, 64, 64, 64, 24, 25, 25, 25, 44, 64, 64, 64, 64, 64, 64, 64, 64, 64, 
-                64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 
-                64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64,
+                64, 64, 43, 35, 17, 28, 20, 64, 64, 64, 64, 64, 64, 64, 64, 43, 4, 17, 17,
+                64, 64, 64, 43, 35, 17, 11, 20, 64, 64, 64, 64, 64, 64, 64, 64, 16, 17, 17,
+                64, 64, 64, 64, 24, 4, 17, 11, 9, 10, 64, 64, 64, 64, 64, 64, 16, 17, 17,
+                64, 64, 64, 64, 64, 24, 25, 25, 25, 44, 64, 64, 64, 64, 64, 64, 43, 4, 17,
+                64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 16, 17,
+                64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 43, 25,
                 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 19, 9, 9, 9, 9, 9,
                 20, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 19, 9, 12, 17, 17, 17, 17, 17,
                 11, 9, 9, 9, 9, 9, 9, 20, 64, 64, 19, 12, 17, 17, 17, 17, 17, 17, 17,
                 17, 17, 17, 17, 17, 17, 17, 11, 9, 9, 12, 17, 17, 17, 17, 17, 17, 17, 17,
+            ],
+            middlegroundMatrix: [
+                46, 59, 64, 64, 64, 64, 64, 64, 64, 58, 38, 38, 47, 30, 30, 30, 30, 30, 30,
+                59, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 58, 38, 47, 30, 30, 30, 30,
+                64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 58, 47, 30, 30, 30,
+                64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 58, 38, 38, 38,
+                64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64,
+                64, 21, 23, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64,
+                64, 29, 54, 51, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64,
+                22, 55, 55, 31, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64,
+                64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64,
+                64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64,
             ],
             backgroundMatrix: [
                 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33,
@@ -60,6 +72,7 @@ class GameShow extends Component {
         const ctx = cvs.getContext('2d')
         this.setState({ context: ctx })
         this.renderBackGound()
+        this.renderMiddleGround()
         this.renderForeground()
     }
 
@@ -68,31 +81,35 @@ class GameShow extends Component {
     renderBackGound = () => {
         const bgTile = new Image()
         bgTile.src = TileSheetOne
-        // debugger;
         bgTile.onload = () => {
 
             for (let i = this.state.backgroundMatrix.length - 1; i > -1; --i) {
-
                 let worldMatrix = this.state.backgroundMatrix[i]
-                console.log(`WorldMatrix ${worldMatrix}`)
-
                 let source_x = (worldMatrix % this.state.tileSheetColumns) * this.state.tileWidth
-                console.log(`source_x${source_x}`)
-
                 let source_y = Math.floor(worldMatrix / this.state.tileSheetColumns) * this.state.tileHeight
-                console.log(`source_y${source_y}`)
-
                 let destination_x = (i % this.state.matrixColumns) * this.state.tileWidth
-                console.log(`destination_x${destination_x}`)
-
                 let destination_y = Math.floor(i / this.state.matrixColumns) * this.state.tileHeight
-                console.log(`destination_y${destination_y}`)
-                // debugger
                 this.state.context.drawImage(bgTile, source_x, source_y, 16, 16, destination_x, destination_y, this.state.tileWidth, this.state.tileHeight)
-
-
             }
         }
+    }
+
+    renderMiddleGround = () => {
+        const mgTile = new Image()
+        mgTile.src = TileSheetOne
+        mgTile.onload = () => {
+
+            for (let i = this.state.middlegroundMatrix.length - 1; i > -1; --i) {
+
+                let worldMatrix = this.state.middlegroundMatrix[i]
+                let source_x = (worldMatrix % this.state.tileSheetColumns) * this.state.tileWidth
+                let source_y = Math.floor(worldMatrix / this.state.tileSheetColumns) * this.state.tileHeight
+                let destination_x = (i % this.state.matrixColumns) * this.state.tileWidth
+                let destination_y = Math.floor(i / this.state.matrixColumns) * this.state.tileHeight
+                this.state.context.drawImage(mgTile, source_x, source_y, 16, 16, destination_x, destination_y, this.state.tileWidth, this.state.tileHeight)
+            }
+        }
+
     }
 
     renderForeground = () => {
