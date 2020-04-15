@@ -21,7 +21,7 @@ class App extends Component {
       wordCounter: 0,
       currentScore: 0,
       gameTimer: 120,
-      gameRunning: false
+      gameRunning: false,
     };
   }
 
@@ -58,7 +58,6 @@ class App extends Component {
     return words;
   };
 
-
   //function to remove a word from state.activeWords if the passed in word matches any instance inside the array
   checkValue = (word) => {
     const index = this.state.activeWords.indexOf(word);
@@ -72,7 +71,7 @@ class App extends Component {
     let wordArray = this.state.words;
     let wordCounter = this.state.wordCounter;
     if (wordArray.length === wordCounter) {
-      wordCounter = 0
+      wordCounter = 0;
     }
     let newWord = wordArray[wordCounter];
     this.setState({ activeWords: [...this.state.activeWords, newWord] });
@@ -93,17 +92,17 @@ class App extends Component {
 
   //simple add one point to score anonymous function
   addScore = () => {
-    let currentScore = this.state.currentScore
-    currentScore += 1
-    this.setState({currentScore})
-  }
+    let currentScore = this.state.currentScore;
+    currentScore += 1;
+    this.setState({ currentScore });
+  };
 
   //currently keeps word list to 5
   keepActiveWordsAtFive = () => {
-    if (this.state.activeWords.length < 5){
-      this.addWordToActiveWord()
+    if (this.state.activeWords.length < 5) {
+      this.addWordToActiveWord();
     }
-  }
+  };
 
   //Shuffle array to randomize gameplay
   shuffleArray = (array) => {
@@ -116,7 +115,7 @@ class App extends Component {
   //create user model in DB,
   //!!!!!!!!need to add uniqueness validation eventually!!!!!!!//
   createUser = (userObject) => {
-    console.log(userObject)
+    console.log(userObject);
     fetch(baseURL + "users", userObject);
   };
 
@@ -136,7 +135,6 @@ class App extends Component {
     //   this.setState({ activeUser: activeUser });
     // }
   };
-
 
   //determines if component will render gameShow or userBar depnding on if state is logged in or not
   checkIfLoggedIn = () => {
@@ -165,14 +163,14 @@ class App extends Component {
               backgroundImage: `url(${background})`,
             }}
           >
-            <GameFooter 
-            gameStartWords={this.setActiveWordsGameStart}
-            addScore={this.addScore}
-            currentScore={this.state.currentScore}
-            autoFeed={this.keepActiveWordsAtFive}
-            words={this.state.activeWords} 
-            checkValue={this.checkValue}
-            addWord={this.addWordToActiveWord}
+            <GameFooter
+              gameStartWords={this.setActiveWordsGameStart}
+              addScore={this.addScore}
+              currentScore={this.state.currentScore}
+              autoFeed={this.keepActiveWordsAtFive}
+              words={this.state.activeWords}
+              checkValue={this.checkValue}
+              addWord={this.addWordToActiveWord}
             />
           </div>
         ) : (
