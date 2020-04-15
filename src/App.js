@@ -87,6 +87,7 @@ class App extends Component {
   //create user model in DB,
   //!!!!!!!!need to add uniqueness validation eventually!!!!!!!//
   createUser = (userObject) => {
+    console.log(userObject)
     fetch(baseURL + "users", userObject);
   };
 
