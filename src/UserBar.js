@@ -1,4 +1,7 @@
 import React, { Component } from "react";
+import accountInfo from './sprites/backgrounds/accountcreate.png'
+import loginInfo from './sprites/backgrounds/login.png'
+
 
 class UserBar extends Component {
   constructor(props) {
@@ -50,15 +53,7 @@ class UserBar extends Component {
               justifyContent: "center",
             }}
           >
-            <h1>Welcome back! Log in with your username and password below!</h1>
-          </div>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-            }}
-          >
-            <h2>Can you beat your high score?</h2>
+            <img src={loginInfo}></img>
           </div>
 
           <div
@@ -90,7 +85,7 @@ class UserBar extends Component {
               justifyContent: "center",
             }}
           >
-            <h1>Create an account to begin your adventure!</h1>
+            <img src={accountInfo}></img>
           </div>
 
           <div
