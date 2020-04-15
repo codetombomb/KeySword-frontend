@@ -4,7 +4,7 @@ import GameShow from "./GameShow";
 import GameFooter from "./GameFooter";
 import UserBar from "./UserBar";
 import background from "./sprites/backgrounds/stonebackground.jpg";
-import backgroundholes from "./sprites/backgrounds/stonebackgroundholes.png";
+import footerlogo from "./sprites/backgrounds/footerlogo.png";
 
 let baseURL = "http://localhost:3000/";
 class App extends Component {
@@ -116,15 +116,14 @@ class App extends Component {
             <GameFooter words={this.state.activeWords} />
           </div>
         ) : (
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-              }}
+          <div style={{
+                display: 'flex',
+                justifyContent: 'center',
+            }}
             >
-              <h2>Please sign up or log in!</h2>
+                <img src={footerlogo}></img>
             </div>
-          )}
+        )}
       </div>
     );
   }

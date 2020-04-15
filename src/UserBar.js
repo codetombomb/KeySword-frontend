@@ -9,31 +9,31 @@ class UserBar extends Component {
 
   handleChecked() {
     this.setState({ checked: !this.state.checked });
-    this.props.refreshUsers()
+    this.props.refreshUsers();
   }
 
   createUser = (e) => {
-      e.preventDefault();
-      let username = e.target.username.value
-      let password = e.target.password.value
-      console.log(username, password);
+    e.preventDefault();
+    let username = e.target.username.value;
+    let password = e.target.password.value;
+    console.log(username, password);
     const fetchObject = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username: username, password: password })
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username: username, password: password }),
     };
-    this.props.postUser(fetchObject)
-    
-    e.target.username.value = ""
-    e.target.password.value = ""
-    window.alert("You can log in now!")
+    this.props.postUser(fetchObject);
+
+    e.target.username.value = "";
+    e.target.password.value = "";
+    window.alert("You can log in now!");
   };
 
   logInUser = (e) => {
-      e.preventDefault();
-      let username = e.target.username.value
-      let password = e.target.password.value
-      this.props.logIn(username, password)
+    e.preventDefault();
+    let username = e.target.username.value;
+    let password = e.target.password.value;
+    this.props.logIn(username, password);
   };
 
   render() {
@@ -50,7 +50,15 @@ class UserBar extends Component {
               justifyContent: "center",
             }}
           >
-            <h1>Log in, friend!</h1>
+            <h1>Welcome back! Log in with your username and password below!</h1>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
+            <h2>Can you beat your high score?</h2>
           </div>
 
           <div
@@ -60,19 +68,20 @@ class UserBar extends Component {
             }}
           >
             <form onSubmit={this.logInUser}>
-              <label>Username</label>
+              <label>Username: </label>
               <input type="text" name="username" />
               <br></br>
-              <label>Password</label>
+              <br></br>
+              <label>Password: </label>
               <input type="password" name="password" />
               <br></br>
-              <button >submit</button>
+              <button>submit</button>
             </form>
           </div>
         </div>
       );
     } else {
-        //else create Account
+      //else create Account
       inputBar = (
         <div>
           <div
@@ -81,7 +90,7 @@ class UserBar extends Component {
               justifyContent: "center",
             }}
           >
-            <h1>Create an account!</h1>
+            <h1>Create an account to begin your adventure!</h1>
           </div>
 
           <div
@@ -91,10 +100,11 @@ class UserBar extends Component {
             }}
           >
             <form onSubmit={this.createUser}>
-              <label>Username</label>
+              <label>Username: </label>
               <input type="text" name="username" />
               <br></br>
-              <label>Password</label>
+              <br></br>
+              <label>Password: </label>
               <input type="password" name="password" />
               <br></br>
               <button>submit</button>
@@ -105,18 +115,38 @@ class UserBar extends Component {
     }
     return (
       <div>
+        {inputBar}
+      <br></br>
         <div
           style={{
             display: "flex",
             justifyContent: "center",
           }}
         >
-          <input type="checkbox" onChange={this.handleChecked} />
-          <label>I have an account!</label>
+          <label className="switch">
+            <input type="checkbox" onChange={this.handleChecked} />
+            {/* <label>I have an account!</label> */}
+            <div className="slider"></div>
+          </label>
         </div>
-        {inputBar}
+        <div
+        style={{
+            display: "flex",
+            justifyContent: "center",
+          }}>
+          <h5>Already played?</h5>
+          </div>
       </div>
     );
   }
 }
 export default UserBar;
+
+{/* <label className="switch">
+  <input
+    type="checkbox"
+    value={this.state.isChecked}
+    onChange={this.handleChange}
+  />
+  <div className="slider"></div>
+</label>; */}

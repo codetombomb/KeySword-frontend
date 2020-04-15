@@ -129,6 +129,21 @@ class GameShow extends Component {
         }
     }
 
+    playGame = () => {
+        // this.displayScoreboard()
+        // this.makeMonsters()
+        this.update()
+    }
+
+    update = () => {
+        this.renderBackGound()
+        this.renderMiddleGround()
+        this.renderForeground()
+        
+        
+    }
+
+
 
     render() {
         return (
@@ -144,7 +159,8 @@ class GameShow extends Component {
                 backgroundColor: 'grey'
             }}
             >
-                <Hero context={this.state.context}/>
+                {this.playGame()}
+                <Hero context={this.state.context} />
             </canvas>
         )
     }
@@ -154,3 +170,21 @@ export default GameShow;
 
 //NOTES:
 // The hard numbers to drawImage for level one background is: 300x150
+
+// function playGame() {
+//     // gameStatsCard.style.display = "block";
+//     // canvas.style.display= "block";
+//     scoreBoard.style.display = 'block';  
+//     makeViruses();
+//     infectThem();
+//     updateCanvas();
+//     sneeze.play();
+//     mainMusic.play();
+
+//     //Game timer
+//     gameTimer = setInterval(function() {
+//         counter += 1;
+//         idEl('time').innerText = counter;
+//     }, 1000);    
+
+//   }
