@@ -53,7 +53,7 @@ class UserBar extends Component {
               justifyContent: "center",
             }}
           >
-            <img src={loginInfo}></img>
+            <img alt="" src={loginInfo}></img>
           </div>
 
           <div
@@ -85,7 +85,7 @@ class UserBar extends Component {
               justifyContent: "center",
             }}
           >
-            <img src={accountInfo}></img>
+            <img alt="" src={accountInfo}></img>
           </div>
 
           <div
@@ -137,11 +137,11 @@ class UserBar extends Component {
 }
 export default UserBar;
 
-{/* <label className="switch">
+/* <label className="switch">
   <input
     type="checkbox"
     value={this.state.isChecked}
     onChange={this.handleChange}
   />
   <div className="slider"></div>
-</label>; */}
+</label>; */

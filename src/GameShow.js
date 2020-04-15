@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import TileSheetOne from './sprites/maps/tile_sheet01.png'
 
+
 //WILL HAVE TO REMOBVE THIS ONCE THE INFORMATION FOR THE BACKGROUND IMAGE IS CAPTURED FROM THE INITIAL FETCH
 // import LevelOneBackGround from './sprites/maps/level_one_background.png'
 import Hero from './Hero';
@@ -74,6 +75,7 @@ class GameShow extends Component {
         this.renderBackGound()
         this.renderMiddleGround()
         this.renderForeground()
+        // this.renderStartModal()
     }
 
 
@@ -129,18 +131,25 @@ class GameShow extends Component {
         }
     }
 
+   
+        // debugger
+        // const modal = document.getElementsByClassName('modal-content')
+        // modal.style.display = "block";
+
+
     playGame = () => {
         // this.displayScoreboard()
-        // this.makeMonsters()
         this.update()
     }
 
+
+    //need to update positions and idle character sprites
     update = () => {
         this.renderBackGound()
         this.renderMiddleGround()
         this.renderForeground()
-        
-        
+
+
     }
 
 
@@ -159,7 +168,6 @@ class GameShow extends Component {
                 backgroundColor: 'grey'
             }}
             >
-                {this.playGame()}
                 <Hero context={this.state.context} />
             </canvas>
         )

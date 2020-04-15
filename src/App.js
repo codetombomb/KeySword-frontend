@@ -121,7 +121,7 @@ class App extends Component {
                 justifyContent: 'center',
             }}
             >
-                <img src={footerlogo}></img>
+                <img alt="" src={footerlogo}></img>
             </div>
         )}
       </div>

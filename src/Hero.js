@@ -7,7 +7,9 @@ class Hero extends Component {
 
         this.state = {
             ssColumns: 8,
-            ssRows: 7
+            ssRows: 7,
+            x: 32,
+            y: 0
         }
     }
     
@@ -15,7 +17,7 @@ class Hero extends Component {
         const hero = new Image()
         hero.src = HeroSprite
         hero.onload = () => {
-            this.props.context.drawImage(hero, 32, 64, 32, 32, 0, 96, 32, 32)
+            this.props.context.drawImage(hero, 32, 64, 32, this.state.x, this.state.y, 96, 32, 32)
         }
     }
 
