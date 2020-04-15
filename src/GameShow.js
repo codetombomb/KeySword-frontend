@@ -16,8 +16,10 @@ class GameShow extends Component {
             matrixColumns: 19,
             gameRunning: false,
             timeCounter: 120,
+            stopAnimation: null,
             playerX: 32,
             playerY: 0,
+
             foregroundMatrix: [
                 64, 64, 43, 35, 17, 28, 20, 64, 64, 64, 64, 64, 64, 64, 64, 43, 4, 17, 17,
                 64, 64, 64, 43, 35, 17, 11, 20, 64, 64, 64, 64, 64, 64, 64, 64, 16, 17, 17,
@@ -59,6 +61,7 @@ class GameShow extends Component {
     }
 
     componentDidMount() {
+        // debugger;
         const cvs = document.getElementById("gameCanvas")
         const ctx = cvs.getContext('2d')
         this.setState({ context: ctx })
@@ -125,20 +128,20 @@ class GameShow extends Component {
 
 
     playGame = () => {
-
         this.update()
     }
 
 
 
     update = () => {
-        if (this.state.gameRunning) {
+        if (this.props.gameState) {
+            console.log("Game Going!!")
             this.renderBackGound()
             this.renderMiddleGround()
             this.renderForeground()
+            let stopId = window.requestAnimationFrame(this.update)
+            this.setState({stopAnimation: stopId})
         }
-
-
     }
 
 
@@ -160,6 +163,7 @@ class GameShow extends Component {
                 >
                     <Hero context={this.state.context} x={this.state.playerX} y={this.state.playerY} />
                 </canvas>
+                
             </div>
 
 
