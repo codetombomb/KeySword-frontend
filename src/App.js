@@ -17,7 +17,7 @@ class App extends Component {
       activeUser: [],
       words: [],
       bossWords: [],
-      activeWords: ["walter", "fish"],
+      activeWords: [],
       wordCounter: 0,
     };
   }
@@ -75,7 +75,7 @@ class App extends Component {
 
     this.setState({ wordCounter });
   };
-  
+
   //Shuffle array to randomize gameplay
   shuffleArray = (array) => {
     for (let i = array.length - 1; i > 0; i--) {
