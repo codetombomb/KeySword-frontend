@@ -3,6 +3,8 @@ import GameHeader from "./GameHeader";
 import GameShow from "./GameShow";
 import GameFooter from "./GameFooter";
 import UserBar from "./UserBar";
+import background from "./sprites/backgrounds/stonebackground.jpg";
+import backgroundholes from "./sprites/backgrounds/stonebackgroundholes.png";
 
 let baseURL = "http://localhost:3000/";
 class App extends Component {
@@ -42,6 +44,22 @@ class App extends Component {
   };
 
   //***Helper functions *//
+  
+  //take level words string and add to state words array, shuffling into unique array each time
+  createWordsArray = (wordsString) => {
+    let words = wordsString.split(", ")
+    this.shuffleArray(words)
+    console.log(words)
+    return words
+  }
+  
+  //Shuffle array to randomize gameplay
+  shuffleArray = (array) => {
+      for (let i = array.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [array[i], array[j]] = [array[j], array[i]];
+      }
+  }
 
   //create user model in DB,
   //!!!!!!!!need to add uniqueness validation eventually!!!!!!!//
@@ -50,9 +68,11 @@ class App extends Component {
     fetch(baseURL + "users", userObject);
   };
 
-  //given User object, check if input of username and password exists in database, if so set activeUser to username
+  //given User object, check if input of username and password exists in database, if so set activeUser to username. Also, use this moment to setState of active words, which can be moved but is here to avoid asynch nonsense
   UserLogin = (username, password) => {
     console.log(username, password);
+    this.setState({words: this.createWordsArray(this.state.level[0].words)})
+    this.setState({bossWords: this.createWordsArray(this.state.level[0].bossWords)})
     let activeUser = this.state.users.filter(
       (user) => user.username === username
     );
@@ -62,6 +82,7 @@ class App extends Component {
       this.setState({ activeUser: activeUser });
     }
   };
+
 
   checkIfLoggedIn = () => {
     if (this.state.activeUser.length > 0) {
@@ -80,12 +101,20 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
+      <div
+        className="App"
+        
+      >
         <GameHeader />
-        {/* <GameShow words={this.state.level}/> */}
         {this.checkIfLoggedIn()}
         {this.state.activeUser.length > 0 ? (
-          <GameFooter words={this.state.activeWords} />
+          <div
+            style={{
+              backgroundImage: `url(${background})`,
+            }}
+          >
+            <GameFooter words={this.state.activeWords} />
+          </div>
         ) : (
             <div
               style={{
