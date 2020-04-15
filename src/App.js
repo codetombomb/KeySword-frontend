@@ -19,6 +19,9 @@ class App extends Component {
       bossWords: [],
       activeWords: [],
       wordCounter: 0,
+      currentScore: 0,
+      gameTimer: 120,
+      gameRunning: false
     };
   }
   //initial setup for game data
@@ -76,6 +79,30 @@ class App extends Component {
     this.setState({ wordCounter });
   };
 
+  setActiveWordsGameStart = () => {
+    let wordArray = this.state.words;
+    let wordCounter = this.state.wordCounter;
+    let newWords = wordArray.slice(0, 5);
+    this.setState({ activeWords: [...this.state.activeWords, ...newWords] });
+    wordCounter += 5;
+
+    this.setState({ wordCounter });
+  };
+
+  //simple add one point to score anonymous function
+  addScore = () => {
+    let currentScore = this.state.currentScore
+    currentScore += 1
+    this.setState({currentScore})
+  }
+
+  //currently keeps word list to 5
+  keepActiveWordsAtFive = () => {
+    if (this.state.activeWords.length < 5){
+      this.addWordToActiveWord()
+    }
+  }
+
   //Shuffle array to randomize gameplay
   shuffleArray = (array) => {
     for (let i = array.length - 1; i > 0; i--) {
@@ -103,9 +130,9 @@ class App extends Component {
     );
     console.log(activeUser);
     this.setState({ activeUser });
-    if (password === activeUser.password) {
-      this.setState({ activeUser: activeUser });
-    }
+    // if (password === activeUser.password) {
+    //   this.setState({ activeUser: activeUser });
+    // }
   };
 
   checkIfLoggedIn = () => {
@@ -135,6 +162,10 @@ class App extends Component {
             }}
           >
             <GameFooter 
+            gameStartWords={this.setActiveWordsGameStart}
+            addScore={this.addScore}
+            currentScore={this.state.currentScore}
+            autoFeed={this.keepActiveWordsAtFive}
             words={this.state.activeWords} 
             checkValue={this.checkValue}
             addWord={this.addWordToActiveWord}
