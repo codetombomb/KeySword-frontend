@@ -21,9 +21,10 @@ class App extends Component {
       wordCounter: 0,
       currentScore: 0,
       gameTimer: 120,
-      gameRunning: false
+      gameRunning: false,
     };
   }
+
   //initial setup for game data
   componentDidMount() {
     this.fetchLevel();
@@ -57,7 +58,7 @@ class App extends Component {
     return words;
   };
 
-
+  //function to remove a word from state.activeWords if the passed in word matches any instance inside the array
   checkValue = (word) => {
     const index = this.state.activeWords.indexOf(word);
     if (index > -1) {
@@ -70,7 +71,7 @@ class App extends Component {
     let wordArray = this.state.words;
     let wordCounter = this.state.wordCounter;
     if (wordArray.length === wordCounter) {
-      wordCounter = 0
+      wordCounter = 0;
     }
     let newWord = wordArray[wordCounter];
     this.setState({ activeWords: [...this.state.activeWords, newWord] });
@@ -79,6 +80,7 @@ class App extends Component {
     this.setState({ wordCounter });
   };
 
+  //basic anonymous function to add a block of 5 words to active words array
   setActiveWordsGameStart = () => {
     let wordArray = this.state.words;
     let wordCounter = this.state.wordCounter;
@@ -87,23 +89,22 @@ class App extends Component {
       activeWords: [...this.state.activeWords, ...newWords],
     gameRunning: true });
     wordCounter += 5;
-
     this.setState({ wordCounter });
   };
 
   //simple add one point to score anonymous function
   addScore = () => {
-    let currentScore = this.state.currentScore
-    currentScore += 1
-    this.setState({currentScore})
-  }
+    let currentScore = this.state.currentScore;
+    currentScore += 1;
+    this.setState({ currentScore });
+  };
 
   //currently keeps word list to 5
   keepActiveWordsAtFive = () => {
-    if (this.state.activeWords.length < 5){
-      this.addWordToActiveWord()
+    if (this.state.activeWords.length < 5) {
+      this.addWordToActiveWord();
     }
-  }
+  };
 
   //Shuffle array to randomize gameplay
   shuffleArray = (array) => {
@@ -116,7 +117,7 @@ class App extends Component {
   //create user model in DB,
   //!!!!!!!!need to add uniqueness validation eventually!!!!!!!//
   createUser = (userObject) => {
-    console.log(userObject)
+    console.log(userObject);
     fetch(baseURL + "users", userObject);
   };
 
@@ -137,6 +138,7 @@ class App extends Component {
     // }
   };
 
+  //determines if component will render gameShow or userBar depnding on if state is logged in or not
   checkIfLoggedIn = () => {
     if (this.state.activeUser.length > 0) {
       return <GameShow words={this.state.level} gameState={this.state.gameRunning} time={this.state.gameTimer}/>;
@@ -163,14 +165,14 @@ class App extends Component {
               backgroundImage: `url(${background})`,
             }}
           >
-            <GameFooter 
-            gameStartWords={this.setActiveWordsGameStart}
-            addScore={this.addScore}
-            currentScore={this.state.currentScore}
-            autoFeed={this.keepActiveWordsAtFive}
-            words={this.state.activeWords} 
-            checkValue={this.checkValue}
-            addWord={this.addWordToActiveWord}
+            <GameFooter
+              gameStartWords={this.setActiveWordsGameStart}
+              addScore={this.addScore}
+              currentScore={this.state.currentScore}
+              autoFeed={this.keepActiveWordsAtFive}
+              words={this.state.activeWords}
+              checkValue={this.checkValue}
+              addWord={this.addWordToActiveWord}
             />
           </div>
         ) : (
