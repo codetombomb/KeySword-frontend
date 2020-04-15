@@ -11,7 +11,7 @@ class GameFooter extends Component {
     const index = this.state.words.indexOf(event.target.value);
     if (index > -1) {
       console.log(event.target.value);
-      this.setState(this.state.words.splice(index, 1));
+      this.props.checkValue(event.target.value)
       this.setState({ value: "" });
       event.target.value = "";
     }
@@ -21,21 +21,22 @@ class GameFooter extends Component {
     console.log(event.target.value);
     this.setState({ value: event.target.value });
     this.checkValue(event);
+    this.setState({words: this.props.words})
   };
 
   render() {
     return (
       <div
-      
       >
-        <div
+       <div
           style={{
           display: "flex",
           justifyContent: "center",
         }}
         >
           {" "}
-          <h3>This text</h3>{" "}
+          <h5 style={{color:'white'}}>Type the any of the following words in the space below to attack:</h5>
+          <button onClick={this.props.addWord}></button>
         </div>
         <div
           style={{
@@ -43,7 +44,16 @@ class GameFooter extends Component {
           justifyContent: "center",
         }}
         >
-          <form>
+        
+          <h3 style={{color:'red'}}>{this.props.words.join(", ")}</h3>{" "}
+        </div>
+        <div
+          style={{
+          display: "flex",
+          justifyContent: "center",
+        }}
+        >
+          <form autocomplete="off">
             <input type="text" name="name" onChange={this.handleChange} />
           </form>
         </div>
@@ -53,8 +63,8 @@ class GameFooter extends Component {
           justifyContent: "center",
         }}
         >
-          {" "}
-          <h3>is secret</h3>{" "}
+        
+          <h3 style={{color:'red'}}>{this.props.words.join(", ")}</h3>{" "}
         </div>
       </div>
     );

@@ -47,6 +47,7 @@ class UserBar extends Component {
       //   this.props.parseUsernames();
       inputBar = (
         <div>
+        <br></br>
           <div
             style={{
               display: "flex",
@@ -55,7 +56,7 @@ class UserBar extends Component {
           >
             <img src={loginInfo}></img>
           </div>
-
+            <br></br>
           <div
             style={{
               display: "flex",
@@ -87,7 +88,7 @@ class UserBar extends Component {
           >
             <img src={accountInfo}></img>
           </div>
-
+            <br></br>
           <div
             style={{
               display: "flex",
