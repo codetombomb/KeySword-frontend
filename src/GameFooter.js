@@ -53,7 +53,7 @@ class GameFooter extends Component {
           justifyContent: "center",
         }}
         >
-          <form autocomplete="off">
+          <form autoComplete="off">
             <input type="text" name="name" onChange={this.handleChange} />
           </form>
         </div>
