@@ -35,7 +35,7 @@ class GameFooter extends Component {
         }}
         >
           {" "}
-          <h3>Game Footer</h3>{" "}
+          <h3>This text</h3>{" "}
         </div>
         <div
           style={{
@@ -46,6 +46,15 @@ class GameFooter extends Component {
           <form>
             <input type="text" name="name" onChange={this.handleChange} />
           </form>
+        </div>
+        <div
+          style={{
+          display: "flex",
+          justifyContent: "center",
+        }}
+        >
+          {" "}
+          <h3>is secret</h3>{" "}
         </div>
       </div>
     );
