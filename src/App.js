@@ -24,6 +24,7 @@ class App extends Component {
       gameRunning: false
     };
   }
+
   //initial setup for game data
   componentDidMount() {
     this.fetchLevel();
@@ -58,6 +59,7 @@ class App extends Component {
   };
 
 
+  //function to remove a word from state.activeWords if the passed in word matches any instance inside the array
   checkValue = (word) => {
     const index = this.state.activeWords.indexOf(word);
     if (index > -1) {
@@ -79,13 +81,13 @@ class App extends Component {
     this.setState({ wordCounter });
   };
 
+  //basic anonymous function to add a block of 5 words to active words array
   setActiveWordsGameStart = () => {
     let wordArray = this.state.words;
     let wordCounter = this.state.wordCounter;
     let newWords = wordArray.slice(0, 5);
     this.setState({ activeWords: [...this.state.activeWords, ...newWords] });
     wordCounter += 5;
-
     this.setState({ wordCounter });
   };
 
@@ -135,6 +137,8 @@ class App extends Component {
     // }
   };
 
+
+  //determines if component will render gameShow or userBar depnding on if state is logged in or not
   checkIfLoggedIn = () => {
     if (this.state.activeUser.length > 0) {
       return <GameShow words={this.state.level} />;

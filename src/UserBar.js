@@ -1,8 +1,11 @@
 import React, { Component } from "react";
-import accountInfo from './sprites/backgrounds/accountcreate.png'
-import loginInfo from './sprites/backgrounds/login.png'
+import accountInfo from "./sprites/backgrounds/accountcreate.png";
+import loginInfo from "./sprites/backgrounds/login.png";
 
-
+let centerStyle = {
+  display: "flex",
+  justifyContent: "center",
+};
 class UserBar extends Component {
   constructor(props) {
     super(props);
@@ -10,11 +13,13 @@ class UserBar extends Component {
     this.handleChecked = this.handleChecked.bind(this);
   }
 
+  //toggle function for if user is logged in or not
   handleChecked() {
     this.setState({ checked: !this.state.checked });
     this.props.refreshUsers();
   }
 
+  //function to create user model via input form
   createUser = (e) => {
     e.preventDefault();
     let username = e.target.username.value;
@@ -32,6 +37,7 @@ class UserBar extends Component {
     window.alert("You can log in now!");
   };
 
+  //logging user in via passing username and password into prop function passed from App
   logInUser = (e) => {
     e.preventDefault();
     let username = e.target.username.value;
@@ -42,27 +48,16 @@ class UserBar extends Component {
   render() {
     let inputBar;
     //conditional statement to verify if you have an account or not by checkbox, and adjust display accordingly
-    //if checked, log in option
+    //if checked, log in option component
     if (this.state.checked) {
-      //   this.props.parseUsernames();
       inputBar = (
         <div>
-        <br></br>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-            }}
-          >
+          <br></br>
+          <div style={centerStyle}>
             <img src={loginInfo}></img>
           </div>
-            <br></br>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-            }}
-          >
+          <br></br>
+          <div style={centerStyle}>
             <form onSubmit={this.logInUser}>
               <label>Username: </label>
               <input type="text" name="username" />
@@ -77,24 +72,14 @@ class UserBar extends Component {
         </div>
       );
     } else {
-      //else create Account
+      //else create Account component
       inputBar = (
         <div>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-            }}
-          >
+          <div style={centerStyle}>
             <img src={accountInfo}></img>
           </div>
-            <br></br>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-            }}
-          >
+          <br></br>
+          <div style={centerStyle}>
             <form onSubmit={this.createUser}>
               <label>Username: </label>
               <input type="text" name="username" />
@@ -112,37 +97,19 @@ class UserBar extends Component {
     return (
       <div>
         {inputBar}
-      <br></br>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-          }}
-        >
+        <br></br>
+        <div style={centerStyle}>
           <label className="switch">
             <input type="checkbox" onChange={this.handleChecked} />
             {/* <label>I have an account!</label> */}
             <div className="slider"></div>
           </label>
         </div>
-        <div
-        style={{
-            display: "flex",
-            justifyContent: "center",
-          }}>
+        <div style={centerStyle}>
           <h5>Already played?</h5>
-          </div>
+        </div>
       </div>
     );
   }
 }
 export default UserBar;
-
-{/* <label className="switch">
-  <input
-    type="checkbox"
-    value={this.state.isChecked}
-    onChange={this.handleChange}
-  />
-  <div className="slider"></div>
-</label>; */}
