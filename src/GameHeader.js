@@ -11,7 +11,7 @@ class GameHeader extends Component {
                 backgroundImage:`url(${background})`
             }}
             >
-                <img src={logo}></img>
+                <img alt="keysword-logo"src={logo}></img>
             </div>
         )
     }

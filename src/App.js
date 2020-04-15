@@ -46,6 +46,7 @@ class App extends Component {
   //create user model in DB,
   //!!!!!!!!need to add uniqueness validation eventually!!!!!!!//
   createUser = (userObject) => {
+    console.log(userObject)
     fetch(baseURL + "users", userObject);
   };
 
@@ -86,15 +87,15 @@ class App extends Component {
         {this.state.activeUser.length > 0 ? (
           <GameFooter words={this.state.activeWords} />
         ) : (
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-            }}
-          >
-            <h2>Please sign up or log in!</h2>
-          </div>
-        )}
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
+              <h2>Please sign up or log in!</h2>
+            </div>
+          )}
       </div>
     );
   }
