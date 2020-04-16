@@ -20,8 +20,9 @@ class App extends Component {
       activeWords: [],
       wordCounter: 0,
       currentScore: 0,
-      gameTimer: 120,
+      gameTimer: 60,
       gameRunning: false,
+      timerId: null
     };
   }
 
@@ -65,7 +66,7 @@ class App extends Component {
       activeWords: [],
       wordCounter: 0,
       currentScore: 0,
-      gameTimer: 120,
+      gameTimer: 60,
       gameRunning: false,
     });
   };
@@ -174,13 +175,13 @@ class App extends Component {
   };
 
   //Timer functions
-  //start countdown function
+  //start countdown function, sets intervalId to state for reference
   toggleCountDown = () => {
     let gameTimer = this.state.gameTimer;
     if (gameTimer > 0) {
-      setInterval(this.timerDecrease, 1000);
+      let timerId = setInterval(this.timerDecrease, 1000);
+      this.setState({timerId})
     }
-    clearInterval();
   };
 
   //helper function to decrease timer by one
@@ -197,6 +198,16 @@ class App extends Component {
     this.setActiveWordsGameStart();
   };
 
+  //collector function collecting gameEnd effects. Currently resetting activeWords bugs out gameFooter functions
+  gameEnd = () => {
+    this.setState({
+      gameRunning: false,
+      gameTimer: 60,
+      // activeWords: ""
+    });
+    clearInterval(this.state.timerId);
+  };
+
   render() {
     return (
       <div className="App">
@@ -209,6 +220,7 @@ class App extends Component {
             }}
           >
             <GameFooter
+              gameEnd={this.gameEnd}
               gameRunning={this.state.gameRunning}
               timer={this.state.gameTimer}
               startGame={this.toggleGameRunning}

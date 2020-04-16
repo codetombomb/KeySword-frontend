@@ -30,11 +30,13 @@ class GameFooter extends Component {
     this.props.autoFeed();
   };
 
+  //collection function to fire all game start functions at once
   startGame = () => {
     this.props.startGame();
     this.props.gameStartWords();
   };
 
+  //conditional render for start button depending on if a game is currently running or not
   gameStartButton = () => {
     if (!this.props.gameRunning){
       return (<button
@@ -43,6 +45,12 @@ class GameFooter extends Component {
       >
         Start game
       </button>)}
+  }
+
+  componentDidUpdate = () => {
+    if (this.props.timer === 0){
+      this.props.gameEnd()
+    }
   }
 
   render() {
