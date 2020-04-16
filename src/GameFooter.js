@@ -35,6 +35,16 @@ class GameFooter extends Component {
     this.props.gameStartWords();
   };
 
+  gameStartButton = () => {
+    if (!this.props.gameRunning){
+      return (<button
+        onClick={this.startGame}
+        style={{ height: 40, borderColor: "gray", borderWidth: 5 }}
+      >
+        Start game
+      </button>)}
+  }
+
   render() {
     return (
       <div>
@@ -64,12 +74,7 @@ class GameFooter extends Component {
               style={{ height: 20, borderColor: "gray", borderWidth: 5 }}
             />
           </form>
-          <button
-            onClick={this.startGame}
-            style={{ height: 40, borderColor: "gray", borderWidth: 5 }}
-          >
-            Start game
-          </button>
+          { this.gameStartButton()}
         </div>
         <div style={styleTemplate}>
           <h3 style={{ color: "red", fontFamily: "Chalkduster" }}>
