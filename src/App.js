@@ -173,23 +173,28 @@ class App extends Component {
     }
   };
 
+  //Timer functions
+  //start countdown function
   toggleCountDown = () => {
-    let gameTimer = this.state.gameTimer
-    if (gameTimer > 0){
-      setInterval(this.timerDecrease, 1000)
+    let gameTimer = this.state.gameTimer;
+    if (gameTimer > 0) {
+      setInterval(this.timerDecrease, 1000);
     }
-    clearInterval()
-  }
+    clearInterval();
+  };
 
+  //helper function to decrease timer by one
   timerDecrease = () => {
-    let gameTimer = this.state.gameTimer
-    gameTimer -= 1
-  this.setState({gameTimer})
-  }
+    let gameTimer = this.state.gameTimer;
+    gameTimer -= 1;
+    this.setState({ gameTimer });
+  };
 
+  //start actual game
   toggleGameRunning = () => {
     this.setState({ gameRunning: true });
-    this.toggleCountDown()
+    this.toggleCountDown();
+    this.setActiveWordsGameStart();
   };
 
   render() {
@@ -204,6 +209,7 @@ class App extends Component {
             }}
           >
             <GameFooter
+              gameRunning={this.state.gameRunning}
               timer={this.state.gameTimer}
               startGame={this.toggleGameRunning}
               logOut={this.logOut}
