@@ -17,8 +17,6 @@ class GameShow extends Component {
             gameRunning: false,
             timeCounter: 120,
             stopAnimation: null,
-            playerSpriteHeight: 32,
-            playerSpriteWidth: 32,
             playerX: 32,
             playerY: 0,
             playerSourceX: 32,
@@ -26,7 +24,10 @@ class GameShow extends Component {
             playerSourceColumns: 6,
             playerDX: 0,
             playerDY: 96,
+            playerSpriteHeight: 32,
+            playerSpriteWidth: 32,
             playerCurrentFrame: 0,
+            playerSpriteFrameSet: [[0, 1, 2, 3, 4, 5], [6, 7, 8, 9, 10, 11], [12, 13, 14, 15]], // jump, walk right, idle
 
             foregroundMatrix: [
                 64, 64, 43, 35, 17, 28, 20, 64, 64, 64, 64, 64, 64, 64, 64, 43, 4, 17, 17,
@@ -132,19 +133,19 @@ class GameShow extends Component {
     }
 
     renderHero = () => {
-            // debugger
-            this.updateHero()
-            const hero = new Image()
-            hero.src = HeroSprite
-            hero.onload = () => {
-                console.log("drawing hero")
-                this.state.context.drawImage(hero, this.state.playerSourceX, this.state.playerSourceY, 32, 32, this.state.playerDX, this.state.playerDY, 32, 32)
-            }
+        // debugger
+        this.updateHero()
+        const hero = new Image()
+        hero.src = HeroSprite
+        hero.onload = () => {
+            console.log("drawing hero")
+            this.state.context.drawImage(hero, this.state.playerSourceX, this.state.playerSourceY, 32, 32, this.state.playerDX, this.state.playerDY, 32, 32)
+        }
 
     }
 
     updateHero = () => {
-        if (this.state.playerDX < 70) {
+        if (this.state.playerDX < 80) {
             console.log('updating hero')
             let newPos = this.state.playerDX + 0.5
             let newSourceX = Math.floor(this.state.playerCurrentFrame % this.state.playerSourceColumns) * 32
@@ -152,16 +153,20 @@ class GameShow extends Component {
             this.setState({
                 playerDX: newPos,
                 playerSourceX: newSourceX
-                })
+            })
+        } else if (this.state.playerDX = 80) {
+            console.log('player idle')
         }
     }
 
     // Function that will update the coordinates on the sprite sheet for cutout
     updateFrame = () => {
-        let newX = Math.floor(++this.state.playerCurrentFrame % this.state.playerSourceColumns) * 1
-        this.setState({
-            playerCurrentFrame: newX
-        })
+        if (this.state.stopAnimation % 5 === 0) {
+            let newX = Math.floor(++this.state.playerCurrentFrame % this.state.playerSourceColumns)
+            this.setState({
+                playerCurrentFrame: newX
+            })
+        }
     }
 
 
@@ -172,8 +177,8 @@ class GameShow extends Component {
         this.update()
     }
 
-    componentDidUpdate(){
-        if(this.props.gameState === true && this.state.stopAnimation === null){
+    componentDidUpdate() {
+        if (this.props.gameState === true && this.state.stopAnimation === null) {
             this.playGame()
         }
     }
