@@ -147,7 +147,7 @@ class GameShow extends Component {
     updateHero = () => {
         if (this.state.playerDX < 80) {
             console.log('updating hero')
-            let newPos = this.state.playerDX + 0.5
+            let newPos = this.state.playerDX + 1
             let newSourceX = Math.floor(this.state.playerCurrentFrame % this.state.playerSourceColumns) * 16
             this.updateFrame()
             this.setState({
@@ -161,7 +161,7 @@ class GameShow extends Component {
 
     // Function that will update the coordinates on the sprite sheet for cutout
     updateFrame = () => {
-        if (this.state.stopAnimation % 5 === 0) {
+        if (this.state.stopAnimation % 4 === 0) {
             let newX = Math.floor(++this.state.playerCurrentFrame % this.state.playerSourceColumns)
             this.setState({
                 playerCurrentFrame: newX
