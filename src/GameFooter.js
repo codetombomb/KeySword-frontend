@@ -45,6 +45,12 @@ class GameFooter extends Component {
       </button>)}
   }
 
+  componentDidUpdate = () => {
+    if (this.props.timer === 0){
+      this.props.gameEnd()
+    }
+  }
+
   render() {
     return (
       <div>

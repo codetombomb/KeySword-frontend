@@ -22,7 +22,8 @@ class App extends Component {
       currentScore: 0,
       gameTimer: 10,
       gameRunning: false,
-      timerId: null
+      timerId: null,
+      userHighScore: "",
     };
   }
 
@@ -146,6 +147,8 @@ class App extends Component {
     );
     console.log(activeUser);
     this.setState({ activeUser });
+    let userHighScore = activeUser.highscore;
+    this.setState({ userHighScore });
     //temporarily setting state if username matches, need way to also check password
     // if (password === activeUser.password) {
     //   this.setState({ activeUser: activeUser });
@@ -180,7 +183,7 @@ class App extends Component {
     let gameTimer = this.state.gameTimer;
     if (gameTimer > 0) {
       let timerId = setInterval(this.timerDecrease, 1000);
-      this.setState({timerId})
+      this.setState({ timerId });
     }
   };
 
@@ -206,6 +209,20 @@ class App extends Component {
       // activeWords: ""
     });
     clearInterval(this.state.timerId);
+    this.checkHighScore()
+  };
+
+  checkHighScore = () => {
+    let currentScore = this.state.currentScore;
+    // let activeUser = this.state.activeUser;
+    let userScore = this.state.userHighScore;
+    if (userScore === null || currentScore > userScore) {
+      this.setState({
+        activeUser: {
+          currentScore,
+        },
+      });
+    }
   };
 
   render() {
