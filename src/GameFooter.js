@@ -31,14 +31,14 @@ class GameFooter extends Component {
   };
 
   startGame = () => {
-    this.props.startGame()
-    this.props.gameStartWords()
-  }
+    this.props.startGame();
+    this.props.gameStartWords();
+  };
 
   render() {
     return (
       <div>
-      <button onClick={this.props.logOut}>Log Out</button>
+        <button onClick={this.props.logOut}>Log Out</button>
         <div style={styleTemplate}>
           <h3 style={{ color: "white", fontFamily: "Chalkduster" }}>
             Type the any of the following words in the space below to attack:
@@ -73,7 +73,7 @@ class GameFooter extends Component {
         </div>
         <div style={styleTemplate}>
           <h3 style={{ color: "red", fontFamily: "Chalkduster" }}>
-            Countdown Timer will go here
+            Time left in seconds:  |{this.props.timer}|
           </h3>{" "}
         </div>
       </div>
