@@ -19,13 +19,13 @@ class GameShow extends Component {
             stopAnimation: null,
             playerX: 32,
             playerY: 0,
-            playerSourceX: 32,
-            playerSourceY: 64,
+            playerSourceX: 0,
+            playerSourceY: 48,
             playerSourceColumns: 6,
             playerDX: 0,
-            playerDY: 96,
-            playerSpriteHeight: 32,
-            playerSpriteWidth: 32,
+            playerDY: 100,
+            playerSpriteHeight: 24,
+            playerSpriteWidth: 24,
             playerCurrentFrame: 0,
             playerSpriteFrameSet: [[0, 1, 2, 3, 4, 5], [6, 7, 8, 9, 10, 11], [12, 13, 14, 15]], // jump, walk right, idle
 
@@ -139,7 +139,7 @@ class GameShow extends Component {
         hero.src = HeroSprite
         hero.onload = () => {
             console.log("drawing hero")
-            this.state.context.drawImage(hero, this.state.playerSourceX, this.state.playerSourceY, 32, 32, this.state.playerDX, this.state.playerDY, 32, 32)
+            this.state.context.drawImage(hero, this.state.playerSourceX, this.state.playerSourceY, this.state.playerSpriteWidth, this.state.playerSpriteHeight, this.state.playerDX, this.state.playerDY, 32, 32)
         }
 
     }
