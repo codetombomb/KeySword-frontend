@@ -173,6 +173,10 @@ class App extends Component {
     }
   };
 
+  toggleGameRunning = () => {
+    this.setState({gameRunning: true})
+  }
+
   render() {
     return (
       <div className="App">
@@ -185,6 +189,7 @@ class App extends Component {
             }}
           >
             <GameFooter
+              startGame={this.toggleGameRunning}
               logOut={this.logOut}
               gameStartWords={this.setActiveWordsGameStart}
               addScore={this.addScore}

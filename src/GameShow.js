@@ -74,7 +74,6 @@ class GameShow extends Component {
         this.renderBackGound()
         this.renderMiddleGround()
         this.renderForeground()
-        this.playGame()
     }
 
 
@@ -168,6 +167,12 @@ class GameShow extends Component {
         this.update()
     }
 
+    componentDidUpdate(){
+        if(this.props.gameState === true && this.state.stopAnimation === null){
+            this.playGame()
+        }
+    }
+
 
 
     update = () => {
@@ -181,6 +186,7 @@ class GameShow extends Component {
 
 
         let stopId = window.requestAnimationFrame(this.update)
+        debugger
         this.setState({ stopAnimation: stopId })
     }
 

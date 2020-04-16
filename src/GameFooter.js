@@ -30,6 +30,11 @@ class GameFooter extends Component {
     this.props.autoFeed();
   };
 
+  startGame = () => {
+    this.props.startGame()
+    this.props.gameStartWords()
+  }
+
   render() {
     return (
       <div>
@@ -60,7 +65,7 @@ class GameFooter extends Component {
             />
           </form>
           <button
-            onClick={this.props.gameStartWords}
+            onClick={this.startGame}
             style={{ height: 40, borderColor: "gray", borderWidth: 5 }}
           >
             Start game
