@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import TileSheetOne from './sprites/maps/tile_sheet01.png'
-import Hero from './Hero';
+import HeroSprite from './sprites/hero.png'
 
 class GameShow extends Component {
     constructor() {
@@ -19,6 +19,12 @@ class GameShow extends Component {
             stopAnimation: null,
             playerX: 32,
             playerY: 0,
+            playerSourceX: 32,
+            playerSourceY: 64,
+            playerSourceColumns: 6,
+            playerDX: 0,
+            playerDY: 95,
+            playerCurrentFrame: 0,
 
             foregroundMatrix: [
                 64, 64, 43, 35, 17, 28, 20, 64, 64, 64, 64, 64, 64, 64, 64, 43, 4, 17, 17,
@@ -68,6 +74,7 @@ class GameShow extends Component {
         this.renderBackGound()
         this.renderMiddleGround()
         this.renderForeground()
+        this.playGame()
     }
 
 
@@ -123,6 +130,36 @@ class GameShow extends Component {
         }
     }
 
+    renderHero = () => {
+            // debugger
+            const hero = new Image()
+            hero.src = HeroSprite
+            hero.onload = () => {
+                console.log("drawing hero")
+                this.state.context.drawImage(hero, this.state.playerSourceX, this.state.playerSourceY, 32, 32, this.state.playerDX, this.state.playerDY, 32, 32)
+            }
+
+    }
+
+    updateHero = () => {
+        if (this.state.playerDX < 70) {
+            console.log('updating hero')
+            let newPos = this.state.playerDX + 0.5
+            let newSourceX = Math.floor(this.state.playerCurrentFrame % this.state.playerSourceColumns) * 32
+            this.updateFrame()
+            this.setState({
+                playerDX: newPos,
+                playerSourceX: newSourceX
+                })
+        }
+    }
+    updateFrame = () => {
+        let newX = ++this.state.playerCurrentFrame % this.state.playerSourceColumns
+        this.setState({
+            playerCurrentFrame: newX
+        })
+    }
+
 
 
 
@@ -134,15 +171,22 @@ class GameShow extends Component {
 
 
     update = () => {
-        if (this.props.gameState) {
-            console.log("Game Going!!")
-            this.renderBackGound()
-            this.renderMiddleGround()
-            this.renderForeground()
-            let stopId = window.requestAnimationFrame(this.update)
-            this.setState({stopAnimation: stopId})
-        }
+        console.log("game is running")
+        this.renderBackGound()
+        this.renderMiddleGround()
+        this.renderForeground()
+        this.updateHero()
+        this.renderHero()
+
+
+
+        let stopId = window.requestAnimationFrame(this.update)
+        this.setState({ stopAnimation: stopId })
     }
+
+
+
+
 
 
 
@@ -161,9 +205,9 @@ class GameShow extends Component {
                     backgroundColor: 'grey'
                 }}
                 >
-                    <Hero context={this.state.context} x={this.state.playerX} y={this.state.playerY} />
+                    {/* <Hero context={this.state.context} x={this.state.playerX} y={this.state.playerY} /> */}
                 </canvas>
-                
+
             </div>
 
 

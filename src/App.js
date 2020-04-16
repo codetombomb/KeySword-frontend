@@ -86,8 +86,7 @@ class App extends Component {
     let wordCounter = this.state.wordCounter;
     let newWords = wordArray.slice(0, 5);
     this.setState({ 
-      activeWords: [...this.state.activeWords, ...newWords],
-    gameRunning: true });
+      activeWords: [...this.state.activeWords, ...newWords]});
     wordCounter += 5;
     this.setState({ wordCounter });
   };
