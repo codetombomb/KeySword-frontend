@@ -143,7 +143,7 @@ class GameShow extends Component {
         this.updateHero()
         this.setHeroSprite()
         hero.onload = () => {
-            console.log("drawing hero")
+            // console.log("drawing hero")
             this.state.context.drawImage(hero, this.state.playerSourceX, this.state.playerSourceY, this.state.playerSpriteWidth, this.state.playerSpriteHeight, this.state.playerDX, this.state.playerDY, 32, 32)
         }
         
@@ -168,7 +168,7 @@ class GameShow extends Component {
     
     updateHero = () => {
         if (this.state.playerDX < 80) {
-            console.log('updating hero')
+            // console.log('updating hero')
             let newPos = this.state.playerDX + 1
             let newSourceX = Math.floor(this.state.playerCurrentFrame % this.state.playerSourceColumns) * 16
             this.updateFrame()
@@ -226,7 +226,7 @@ class GameShow extends Component {
 
 
     update = () => {
-        console.log("game is running")
+        // console.log("game is running")
         this.renderBackGound()
         this.renderMiddleGround()
         this.renderForeground()
