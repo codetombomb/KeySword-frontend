@@ -17,6 +17,8 @@ class GameShow extends Component {
             gameRunning: false,
             timeCounter: 120,
             stopAnimation: null,
+            playerSpriteHeight: 32,
+            playerSpriteWidth: 32,
             playerX: 32,
             playerY: 0,
             playerSourceX: 32,
@@ -153,8 +155,10 @@ class GameShow extends Component {
                 })
         }
     }
+
+    // Function that will update the coordinates on the sprite sheet for cutout
     updateFrame = () => {
-        let newX = ++this.state.playerCurrentFrame % this.state.playerSourceColumns
+        let newX = Math.floor(++this.state.playerCurrentFrame % this.state.playerSourceColumns) * 1
         this.setState({
             playerCurrentFrame: newX
         })
