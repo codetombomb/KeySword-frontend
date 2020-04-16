@@ -58,6 +58,22 @@ class App extends Component {
     return words;
   };
 
+  logOut = () => {
+    this.setState({
+      level: [],
+      monsters: [],
+      users: [],
+      activeUser: [],
+      words: [],
+      bossWords: [],
+      activeWords: [],
+      wordCounter: 0,
+      currentScore: 0,
+      gameTimer: 120,
+      gameRunning: false,
+    });
+  };
+
   //function to remove a word from state.activeWords if the passed in word matches any instance inside the array
   checkValue = (word) => {
     const index = this.state.activeWords.indexOf(word);
@@ -131,6 +147,7 @@ class App extends Component {
     );
     console.log(activeUser);
     this.setState({ activeUser });
+    //temporarily setting state if username matches, need way to also check password
     // if (password === activeUser.password) {
     //   this.setState({ activeUser: activeUser });
     // }
@@ -164,6 +181,7 @@ class App extends Component {
             }}
           >
             <GameFooter
+              logOut={this.logOut}
               gameStartWords={this.setActiveWordsGameStart}
               addScore={this.addScore}
               currentScore={this.state.currentScore}

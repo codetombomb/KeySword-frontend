@@ -33,6 +33,7 @@ class GameFooter extends Component {
   render() {
     return (
       <div>
+      <button onClick={this.props.logOut}>Log Out</button>
         <div style={styleTemplate}>
           <h3 style={{ color: "white", fontFamily: "Chalkduster" }}>
             Type the any of the following words in the space below to attack:

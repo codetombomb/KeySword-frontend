@@ -101,7 +101,6 @@ class UserBar extends Component {
         <div style={centerStyle}>
           <label className="switch">
             <input type="checkbox" onChange={this.handleChecked} />
-            {/* <label>I have an account!</label> */}
             <div className="slider"></div>
           </label>
         </div>
