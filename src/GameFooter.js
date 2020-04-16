@@ -48,7 +48,7 @@ class GameFooter extends Component {
           <p style={{ color: "white" }}>
             Current score: {this.props.currentScore}
           </p>
-          <form autocomplete="off">
+          <form autoComplete="off">
             <input
               type="text"
               name="name"

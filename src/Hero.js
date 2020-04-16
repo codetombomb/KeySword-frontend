@@ -15,7 +15,7 @@ class Hero extends Component {
         const hero = new Image()
         hero.src = HeroSprite
         hero.onload = () => {
-            this.props.context.drawImage(hero, 32, 64, 32, 32, 0, 96, 32, 32)
+            this.props.context.drawImage(hero, 32, 64, 32, this.props.x, this.props.y, 96, 32, 32)
         }
     }
 

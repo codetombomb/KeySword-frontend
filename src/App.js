@@ -101,7 +101,8 @@ class App extends Component {
     let wordArray = this.state.words;
     let wordCounter = this.state.wordCounter;
     let newWords = wordArray.slice(0, 5);
-    this.setState({ activeWords: [...this.state.activeWords, ...newWords] });
+    this.setState({ 
+      activeWords: [...this.state.activeWords, ...newWords]});
     wordCounter += 5;
     this.setState({ wordCounter });
   };
@@ -156,7 +157,7 @@ class App extends Component {
   //determines if component will render gameShow or userBar depnding on if state is logged in or not
   checkIfLoggedIn = () => {
     if (this.state.activeUser.length > 0) {
-      return <GameShow words={this.state.level} />;
+      return <GameShow words={this.state.level} gameState={this.state.gameRunning} time={this.state.gameTimer}/>;
     } else {
       // this.parseUsernames()
       return (
@@ -197,9 +198,9 @@ class App extends Component {
               display: "flex",
               justifyContent: "center",
             }}
-          >
-            <img src={footerlogo}></img>
-          </div>
+            >
+                <img alt="" src={footerlogo}></img>
+            </div>
         )}
       </div>
     );

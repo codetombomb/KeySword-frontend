@@ -54,7 +54,7 @@ class UserBar extends Component {
         <div>
           <br></br>
           <div style={centerStyle}>
-            <img src={loginInfo}></img>
+            <img alt="" src={loginInfo}></img>
           </div>
           <br></br>
           <div style={centerStyle}>
@@ -76,7 +76,7 @@ class UserBar extends Component {
       inputBar = (
         <div>
           <div style={centerStyle}>
-            <img src={accountInfo}></img>
+            <img alt="" src={accountInfo}></img>
           </div>
           <br></br>
           <div style={centerStyle}>
