@@ -58,14 +58,10 @@ class App extends Component {
     return words;
   };
 
+  //resets the states necessary to "restart" the game from scratch without a refresh
   logOut = () => {
     this.setState({
-      level: [],
-      monsters: [],
-      users: [],
       activeUser: [],
-      words: [],
-      bossWords: [],
       activeWords: [],
       wordCounter: 0,
       currentScore: 0,
@@ -101,8 +97,9 @@ class App extends Component {
     let wordArray = this.state.words;
     let wordCounter = this.state.wordCounter;
     let newWords = wordArray.slice(0, 5);
-    this.setState({ 
-      activeWords: [...this.state.activeWords, ...newWords]});
+    this.setState({
+      activeWords: [...this.state.activeWords, ...newWords],
+    });
     wordCounter += 5;
     this.setState({ wordCounter });
   };
@@ -157,7 +154,13 @@ class App extends Component {
   //determines if component will render gameShow or userBar depnding on if state is logged in or not
   checkIfLoggedIn = () => {
     if (this.state.activeUser.length > 0) {
-      return <GameShow words={this.state.level} gameState={this.state.gameRunning} time={this.state.gameTimer}/>;
+      return (
+        <GameShow
+          words={this.state.level}
+          gameState={this.state.gameRunning}
+          time={this.state.gameTimer}
+        />
+      );
     } else {
       // this.parseUsernames()
       return (
@@ -198,9 +201,9 @@ class App extends Component {
               display: "flex",
               justifyContent: "center",
             }}
-            >
-                <img alt="" src={footerlogo}></img>
-            </div>
+          >
+            <img alt="" src={footerlogo}></img>
+          </div>
         )}
       </div>
     );
