@@ -1,6 +1,10 @@
+
 import React, { Component } from 'react';
 import TileSheetOne from './sprites/maps/tile_sheet01.png'
 import HeroSprite from './sprites/herowalk.png'
+import HeroIdle from './sprites/heroidle.png'
+
+const hero = new Image()
 
 class GameShow extends Component {
     constructor() {
@@ -134,9 +138,9 @@ class GameShow extends Component {
 
     renderHero = () => {
         // debugger
+        // const hero = new Image()
         this.updateHero()
-        const hero = new Image()
-        hero.src = HeroSprite
+        this.setHeroSprite()
         hero.onload = () => {
             console.log("drawing hero")
             this.state.context.drawImage(hero, this.state.playerSourceX, this.state.playerSourceY, this.state.playerSpriteWidth, this.state.playerSpriteHeight, this.state.playerDX, this.state.playerDY, 32, 32)
@@ -144,10 +148,18 @@ class GameShow extends Component {
 
     }
 
+    setHeroSprite = () => {
+        if (this.state.playerDX < 80) {
+            hero.src = HeroSprite
+        } else if (this.state.playerDX = 80) {
+            hero.src = HeroIdle
+        }
+    }
+
     updateHero = () => {
         if (this.state.playerDX < 80) {
             console.log('updating hero')
-            let newPos = this.state.playerDX + 0.5
+            let newPos = this.state.playerDX + 1
             let newSourceX = Math.floor(this.state.playerCurrentFrame % this.state.playerSourceColumns) * 16
             this.updateFrame()
             this.setState({
@@ -155,12 +167,30 @@ class GameShow extends Component {
                 playerSourceX: newSourceX
             })
         } else if (this.state.playerDX = 80) {
-            console.log('player idle')
+            hero.src = HeroIdle
+            this.setState({
+                playerSourceColumns: 4,
+                playerSpriteHeight: 25,
+                playerSpriteWidth: 16,
+                playerDX: 81
+            })
+        } else if(this.state.playerDX > 80) {
+            this.idleFrame()            
         }
     }
 
+
     // Function that will update the coordinates on the sprite sheet for cutout
     updateFrame = () => {
+        if (this.state.stopAnimation % 5 === 0) {
+            let newX = Math.floor(++this.state.playerCurrentFrame % this.state.playerSourceColumns)
+            this.setState({
+                playerCurrentFrame: newX
+            })
+        }
+    }
+
+    idleFrame = () => {
         if (this.state.stopAnimation % 5 === 0) {
             let newX = Math.floor(++this.state.playerCurrentFrame % this.state.playerSourceColumns)
             this.setState({
