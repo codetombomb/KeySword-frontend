@@ -23,7 +23,7 @@ class GameShow extends Component {
             playerSourceY: 64,
             playerSourceColumns: 6,
             playerDX: 0,
-            playerDY: 95,
+            playerDY: 96,
             playerCurrentFrame: 0,
 
             foregroundMatrix: [
@@ -131,6 +131,7 @@ class GameShow extends Component {
 
     renderHero = () => {
             // debugger
+            this.updateHero()
             const hero = new Image()
             hero.src = HeroSprite
             hero.onload = () => {
@@ -180,7 +181,7 @@ class GameShow extends Component {
         this.renderBackGound()
         this.renderMiddleGround()
         this.renderForeground()
-        this.updateHero()
+        // this.updateHero()
         this.renderHero()
 
 
