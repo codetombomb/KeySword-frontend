@@ -191,7 +191,7 @@ class GameShow extends Component {
 
 
         let stopId = window.requestAnimationFrame(this.update)
-        debugger
+        // debugger
         this.setState({ stopAnimation: stopId })
     }
 
