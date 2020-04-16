@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import TileSheetOne from './sprites/maps/tile_sheet01.png'
 import HeroSprite from './sprites/herowalk.png'
 import HeroIdle from './sprites/heroidle.png'
+import BossWalk from './sprites/bosswalk.png'
 
 const hero = new Image()
 
@@ -32,7 +33,7 @@ class GameShow extends Component {
             playerSpriteWidth: 16,
             playerCurrentFrame: 0,
             playerSpriteFrameSet: [[0, 1, 2, 3, 4, 5], [6, 7, 8, 9, 10, 11], [12, 13, 14, 15]], // jump, walk right, idle
-
+            
             foregroundMatrix: [
                 64, 64, 43, 35, 17, 28, 20, 64, 64, 64, 64, 64, 64, 64, 64, 43, 4, 17, 17,
                 64, 64, 64, 43, 35, 17, 11, 20, 64, 64, 64, 64, 64, 64, 64, 64, 16, 17, 17,
@@ -72,7 +73,7 @@ class GameShow extends Component {
             ]
         }
     }
-
+    
     componentDidMount() {
         // debugger;
         const cvs = document.getElementById("gameCanvas")
@@ -82,14 +83,14 @@ class GameShow extends Component {
         this.renderMiddleGround()
         this.renderForeground()
     }
+    
 
-
-
+    
     renderBackGound = () => {
         const bgTile = new Image()
         bgTile.src = TileSheetOne
         bgTile.onload = () => {
-
+            
             for (let i = this.state.backgroundMatrix.length - 1; i > -1; --i) {
                 let worldMatrix = this.state.backgroundMatrix[i]
                 let source_x = (worldMatrix % this.state.tileSheetColumns) * this.state.tileWidth
@@ -100,12 +101,12 @@ class GameShow extends Component {
             }
         }
     }
-
+    
     renderMiddleGround = () => {
         const mgTile = new Image()
         mgTile.src = TileSheetOne
         mgTile.onload = () => {
-
+            
             for (let i = this.state.middlegroundMatrix.length - 1; i > -1; --i) {
 
                 let worldMatrix = this.state.middlegroundMatrix[i]
@@ -116,14 +117,14 @@ class GameShow extends Component {
                 this.state.context.drawImage(mgTile, source_x, source_y, 16, 16, destination_x, destination_y, this.state.tileWidth, this.state.tileHeight)
             }
         }
-
+        
     }
 
     renderForeground = () => {
         const tile = new Image()
         tile.src = TileSheetOne
         tile.onload = () => {
-
+            
             for (let i = this.state.foregroundMatrix.length - 1; i > -1; --i) {
                 let worldMatrix = this.state.foregroundMatrix[i]
                 let source_x = (worldMatrix % this.state.tileSheetColumns) * this.state.tileWidth
@@ -135,7 +136,7 @@ class GameShow extends Component {
             }
         }
     }
-
+    
     renderHero = () => {
         // debugger
         // const hero = new Image()
@@ -145,9 +146,18 @@ class GameShow extends Component {
             console.log("drawing hero")
             this.state.context.drawImage(hero, this.state.playerSourceX, this.state.playerSourceY, this.state.playerSpriteWidth, this.state.playerSpriteHeight, this.state.playerDX, this.state.playerDY, 32, 32)
         }
-
+        
     }
-
+    
+    renderMonster = () => {
+        const monster = new Image()
+        monster.src = BossWalk
+        monster.onload = () => {
+            this.state.context.drawImage(monster, 0, 0, 175, 296, 225, 61, 35, 35)
+        }
+        
+    }
+    
     setHeroSprite = () => {
         if (this.state.playerDX < 80) {
             hero.src = HeroSprite
@@ -155,7 +165,7 @@ class GameShow extends Component {
             hero.src = HeroIdle
         }
     }
-
+    
     updateHero = () => {
         if (this.state.playerDX < 80) {
             console.log('updating hero')
@@ -222,6 +232,7 @@ class GameShow extends Component {
         this.renderForeground()
         // this.updateHero()
         this.renderHero()
+        this.renderMonster()
 
 
 
