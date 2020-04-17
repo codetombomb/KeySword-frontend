@@ -45,10 +45,26 @@ class GameFooter extends Component {
       </button>)}
   }
 
+  componentDidUpdate = () => {
+    if (this.props.timer === 0){
+      this.props.gameEnd()
+    }
+  }
+
+  saveButton = () => {
+    if (this.props.showSave === true) {
+      return <button onClick={this.props.saveUser}>Save your score</button>
+    }
+  }
+
   render() {
     return (
       <div>
         <button onClick={this.props.logOut}>Log Out</button>
+        <h4 style={{ color: "white", fontFamily: "Chalkduster" }}>
+            current highscore:{this.props.highScore}
+          </h4>
+          {this.saveButton()}
         <div style={styleTemplate}>
           <h3 style={{ color: "white", fontFamily: "Chalkduster" }}>
             Type the any of the following words in the space below to attack:

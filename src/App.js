@@ -22,7 +22,9 @@ class App extends Component {
       currentScore: 0,
       gameTimer: 10,
       gameRunning: false,
-      timerId: null
+      timerId: null,
+      userHighScore: 0,
+      showSave: false,
     };
   }
 
@@ -136,7 +138,6 @@ class App extends Component {
 
   //given User object, check if input of username and password exists in database, if so set activeUser to username. Also, use this moment to setState of active words, which can be moved but is here to avoid asynch nonsense
   UserLogin = (username, password) => {
-    console.log(username, password);
     this.setState({ words: this.createWordsArray(this.state.level[0].words) });
     this.setState({
       bossWords: this.createWordsArray(this.state.level[0].bossWords),
@@ -146,6 +147,8 @@ class App extends Component {
     );
     console.log(activeUser);
     this.setState({ activeUser });
+    let userHighScore = activeUser[0].highscore;
+    this.setState({ userHighScore });
     //temporarily setting state if username matches, need way to also check password
     // if (password === activeUser.password) {
     //   this.setState({ activeUser: activeUser });
@@ -180,7 +183,7 @@ class App extends Component {
     let gameTimer = this.state.gameTimer;
     if (gameTimer > 0) {
       let timerId = setInterval(this.timerDecrease, 1000);
-      this.setState({timerId})
+      this.setState({ timerId });
     }
   };
 
@@ -200,12 +203,42 @@ class App extends Component {
 
   //collector function collecting gameEnd effects. Currently resetting activeWords bugs out gameFooter functions
   gameEnd = () => {
+    this.checkHighScore();
+    clearInterval(this.state.timerId);
     this.setState({
-      gameRunning: false,
+      // gameRunning: false,
       gameTimer: 60,
       // activeWords: ""
     });
-    clearInterval(this.state.timerId);
+  };
+
+  //If player has beaten their previous highscore it updates local data and presents button to save
+  checkHighScore = () => {
+    let currentScore = this.state.currentScore;
+    let activeUser = this.state.activeUser;
+    let userScore = this.state.userHighScore;
+    if (userScore === null || currentScore > userScore) {
+      activeUser[0].highscore = currentScore;
+      this.setState({
+        activeUser,
+        userHighScore: currentScore,
+        showSave: true,
+      });
+    }
+  };
+
+  saveUser = () => {
+    let activeUser = this.state.activeUser[0];
+    let userId = activeUser.id;
+    let highscore = this.state.userHighScore
+    console.log(activeUser)
+    let messageObject = {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json; charset=UTF-8" },
+      body: JSON.stringify({highscore}),
+    };
+
+    fetch(`${baseURL}users/${userId}`, messageObject);
   };
 
   render() {
@@ -220,6 +253,9 @@ class App extends Component {
             }}
           >
             <GameFooter
+              saveUser={this.saveUser}
+              showSave={this.state.showSave}
+              highScore={this.state.userHighScore}
               gameEnd={this.gameEnd}
               gameRunning={this.state.gameRunning}
               timer={this.state.gameTimer}
