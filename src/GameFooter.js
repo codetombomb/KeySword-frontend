@@ -5,6 +5,9 @@ let styleTemplate = {
   justifyContent: "center",
 };
 
+const leftSword = `<=)====>`;
+const rightSword = `<====(=>`;
+
 class GameFooter extends Component {
   constructor(props) {
     super(props);
@@ -30,68 +33,104 @@ class GameFooter extends Component {
     this.props.autoFeed();
   };
 
+  //start game
   startGame = () => {
     this.props.startGame();
     this.props.gameStartWords();
   };
 
+  //renders actual game start button as long as the current state isn't game running
   gameStartButton = () => {
     if (!this.props.gameRunning) {
       return (
-        <button
-          onClick={this.startGame}
-          style={{ height: 40, borderColor: "gray", borderWidth: 5 }}
-        >
-          Start game
-        </button>
+        <div style={styleTemplate}>
+          <button
+            onClick={this.startGame}
+            style={{ height: 40, borderColor: "gray", borderWidth: 5 }}
+          >
+            Start game
+          </button>
+        </div>
       );
     }
   };
 
+  //constant running check to see when timer runs out
   componentDidUpdate = () => {
     if (this.props.timer === 0) {
       this.props.gameEnd();
     }
   };
 
+  //conditionally render save button to only happen if they scored a new high score
   saveButton = () => {
     if (this.props.showSave === true) {
-      return <button onClick={this.props.saveUser}>Save your score</button>;
+      return (
+        <div style={styleTemplate}>
+          <button onClick={this.props.saveUser}>Save your score</button>
+        </div>
+      );
     }
   };
 
+  //condtionally render game intro, game outro, or game play screen
   gameInfo = () => {
+    if (this.props.firstRound === false) {
+      return (
+        <div>
+          <div style={styleTemplate}>
+            <h3 style={{ color: "white", fontFamily: "Chalkduster" }}>
+              YOU DID IT! Maybe. I mean, I can't really tell...but click the
+              save button to save if you have a new highscore.
+            </h3>
+          </div>
+          <div style={styleTemplate}>
+            <h3 style={{ color: "white", fontFamily: "Chalkduster" }}>
+              Someday, probably, we will find a way to restart your game from
+              here. For now, refresh and log in again!
+            </h3>
+          </div>
+          <div style={styleTemplate}>
+            <div style={styleTemplate}>
+              <p style={{ color: "white" }}>
+                ::::::::Current Score::::::::<br></br>
+                {leftSword} {this.props.currentScore} {rightSword}
+              </p>
+            </div>
+          </div>
+        </div>
+      );
+    }
     if (this.props.gameRunning === true) {
       return (
-        <div style={styleTemplate}>
-          <h3 style={{ color: "white", fontFamily: "Chalkduster" }}>
-            Type the any of the following words in the space below to attack:
-          </h3>
+        <div>
+          <div style={styleTemplate}>
+            <h3 style={{ color: "white", fontFamily: "Chalkduster" }}>
+              Type the any of the following words in the space below to attack:
+            </h3>
+          </div>
         </div>
       );
     } else {
       return (
         <div>
           <div style={styleTemplate}>
-            <h3 style={{ color: "white", fontFamily: "Chalkduster" }}>
+            <h2 style={{ color: "white", fontFamily: "Chalkduster" }}>
               Welcome to KeySword!
+            </h2>
+          </div>
+          <div style={styleTemplate}>
+            <h3 style={{ color: "white", fontFamily: "Chalkduster" }}>
+              A wild skeleton has attacked the city. You, a brave Knight, must
+              defend the villagers by attacking with words!
             </h3>
           </div>
           <div style={styleTemplate}>
             <p style={{ color: "white", fontFamily: "Chalkduster" }}>
-              A wild skeleton has attacked the city. You, a brave Knight, must
-              defend the villagers by attacking with words!
-            </p>
-          </div>
-          <div style={styleTemplate}>
-            <p style={{ color: "white", fontFamily: "Chalkduster" }}>
               Why, you might ask? Because that's something we thought we could
-              actually do with React, and it turns out we were kind of right!
-            </p>
-          </div>
-          <div style={styleTemplate}>
-            <p style={{ color: "white", fontFamily: "Chalkduster" }}>
-              Click start below to begin
+              actually code. It turns out we were...kind of right!<br></br>
+              --------------------------------------Click the start game button
+              below to begin!------------------------------------
             </p>
           </div>
         </div>
@@ -99,35 +138,47 @@ class GameFooter extends Component {
     }
   };
 
+  //condtionally render the timer only when game is running
   gameTimerShow = () => {
     if (this.props.gameRunning === true) {
-      return (<div style={styleTemplate}>
-        <h3 style={{ color: "red", fontFamily: "Chalkduster" }}>
-          Time left in seconds: |{this.props.timer}|
-        </h3>
-      </div>)
+      return (
+        <div>
+          <div style={styleTemplate}>
+            <h3 style={{ color: "red", fontFamily: "Chalkduster" }}>
+              Time left in seconds: |{this.props.timer}|
+            </h3>
+          </div>
+          <div style={styleTemplate}>
+            <p style={{ color: "white" }}>
+              ::::::::Current Score::::::::<br></br>
+              {leftSword} {this.props.currentScore} {rightSword}
+            </p>
+          </div>
+        </div>
+      );
     }
-  }
+  };
 
   render() {
     return (
       <div>
-        {this.saveButton()}
         {this.gameInfo()}
-        {/* <div style={styleTemplate}>
-          <h3 style={{ color: "white", fontFamily: "Chalkduster" }}>
-            Type the any of the following words in the space below to attack:
-          </h3>
-        </div> */}
+        {this.saveButton()}
+
         <div style={styleTemplate}>
           <h3 style={{ color: "lightgray", fontFamily: "Futura" }}>
             {this.props.words.join(", ")}
-          </h3>{" "}
+          </h3>
+        </div>
+        {/* <div style={styleTemplate}>
+          <p style={{ color: "white" }}>
+            {leftSword} {this.props.currentScore} {rightSword}
+          </p>
         </div>
         <div style={styleTemplate}>
-          <p style={{ color: "white" }}>
-            Current score: {this.props.currentScore}
-          </p>
+          <p style={{ color: "white" }}>Current Score</p>
+        </div> */}
+        <div style={styleTemplate}>
           <form autoComplete="off">
             <input
               type="text"
@@ -139,8 +190,8 @@ class GameFooter extends Component {
               style={{ height: 20, borderColor: "gray", borderWidth: 5 }}
             />
           </form>
-          {this.gameStartButton()}
         </div>
+        {this.gameStartButton()}
         {this.gameTimerShow()}
         <div style={styleTemplate}>
           <h4 style={{ color: "white", fontFamily: "Chalkduster" }}>

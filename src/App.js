@@ -25,6 +25,7 @@ class App extends Component {
       timerId: null,
       userHighScore: 0,
       showSave: false,
+      firstRound: true,
     };
   }
 
@@ -206,8 +207,9 @@ class App extends Component {
     this.checkHighScore();
     clearInterval(this.state.timerId);
     this.setState({
-      // gameRunning: false,
+      gameRunning: false,
       gameTimer: 60,
+      firstRound: false,
       // activeWords: ""
     });
   };
@@ -230,12 +232,12 @@ class App extends Component {
   saveUser = () => {
     let activeUser = this.state.activeUser[0];
     let userId = activeUser.id;
-    let highscore = this.state.userHighScore
-    console.log(activeUser)
+    let highscore = this.state.userHighScore;
+    console.log(activeUser);
     let messageObject = {
       method: "PATCH",
       headers: { "Content-Type": "application/json; charset=UTF-8" },
-      body: JSON.stringify({highscore}),
+      body: JSON.stringify({ highscore }),
     };
 
     fetch(`${baseURL}users/${userId}`, messageObject);
@@ -253,7 +255,8 @@ class App extends Component {
             }}
           >
             <GameFooter
-            userName={this.state.activeUser[0].username}
+              firstRound={this.state.firstRound}
+              userName={this.state.activeUser[0].username}
               saveUser={this.saveUser}
               showSave={this.state.showSave}
               highScore={this.state.userHighScore}
