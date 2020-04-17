@@ -53,6 +53,7 @@ class GameShow extends Component {
             //Game attr
             gameRunning: false,
             timeCounter: 120,
+            attackCount: 0,
             //Animation
 
             stopAnimation: null,
@@ -188,10 +189,10 @@ class GameShow extends Component {
         this.renderForeground()
         // this.checkAttack()
         this.renderHero()
-        if(this.props.gameState){
-        this.renderMonster()
+        if (this.props.gameState) {
+            this.renderMonster()
         } else {
-            let newImage = DeadMonster 
+            let newImage = DeadMonster
             this.setState({
                 monsterImgSrc: newImage
             })
@@ -201,163 +202,170 @@ class GameShow extends Component {
         this.setState({ stopAnimation: stopId })
     }
 
- 
 
-  checkAttack = () => {
-    if (this.props.attack){
-        // debugger
-        let playerSourceY = 280
-        let playerSourceX = 525
-        this.setState({
-            playerSourceY,
-            playerSourceX
-        })
+
+    checkAttack = () => {
+        if (this.props.attack) {
+            // debugger
+            if (this.state.attackCount < 75){
+                let attackCount = this.state.attackCount
+                attackCount += 1
+                let playerSourceY = 280
+            let playerSourceX = 525
+            this.setState({
+                playerSourceY,
+                playerSourceX,
+                attackCount
+            })
+        } else {
         this.props.toggleAttack()
-    }
-  }
-
-    
-    
-    
-    renderHero = () => {
-
-        hero.src = this.state.heroImgSrc // Set the hero sprite img src
-        hero.onload = () => {
-            // console.log(this.state.playerSourceX)
-            this.state.context.drawImage(hero, this.state.playerSourceX, this.state.playerSourceY, this.state.playerSourceWidth, this.state.playerSourceHeight, this.state.playerDX, this.state.playerDY, this.state.playerSpriteWidth, this.state.playerSpriteHeight)
-            console.log("drawing image")
-        }
-
-        if (this.state.playerDX < 80) {
-            let newDX = this.state.playerDX + this.state.playerSpeed
-            let newCount = this.state.count + 1
-            this.setState({
-                playerDX: newDX,
-                count: newCount
-            })
-            this.heroWalkOn()
-        }
-        else if (this.state.playerDX >= 80) {
-            let newPlayerSourceY = 140
-            this.setState({ playerSourceY: newPlayerSourceY })
-            this.heroIdle()
+        this.setState({attackCount: 0})
         }
     }
+}
 
-    heroWalkOn = () => {
-        if (this.state.stopAnimation % 5 === 0) {
-            let newCurrentFrame = this.state.playerFrameIndex + 1
-            let newSourceX = (newCurrentFrame % this.state.playerSourceColumns) * this.state.playerSourceWidth
-            this.setState({
-                playerFrameIndex: newCurrentFrame,
-                playerSourceX: newSourceX
-            })
-        }
 
+
+
+renderHero = () => {
+
+    hero.src = this.state.heroImgSrc // Set the hero sprite img src
+    hero.onload = () => {
+        // console.log(this.state.playerSourceX)
+        this.state.context.drawImage(hero, this.state.playerSourceX, this.state.playerSourceY, this.state.playerSourceWidth, this.state.playerSourceHeight, this.state.playerDX, this.state.playerDY, this.state.playerSpriteWidth, this.state.playerSpriteHeight)
+        console.log("drawing image")
     }
 
+    if (this.state.playerDX < 80) {
+        let newDX = this.state.playerDX + this.state.playerSpeed
+        let newCount = this.state.count + 1
+        this.setState({
+            playerDX: newDX,
+            count: newCount
+        })
+        this.heroWalkOn()
+    }
+    else if (this.state.playerDX >= 80) {
+        let newPlayerSourceY = 140
+        this.setState({ playerSourceY: newPlayerSourceY })
+        this.heroIdle()
+    }
+}
 
-
-    heroIdle = () => {
-        if (this.state.stopAnimation % 17 === 0) {
-            this.checkAttack()
-            this.checkAttack()
-            this.checkAttack()
-            this.checkAttack()
-            let newCurrentFrame = this.state.playerFrameIndex + 1
-            let newSourceX = (newCurrentFrame % this.state.playerSourceColumns) * this.state.playerSourceWidth
-            this.setState({
-                playerFrameIndex: newCurrentFrame,
-                playerSourceX: newSourceX
-            })
-        }
-    }
-    
-    monsterIdle = () => {
-        if (this.state.stopAnimation % 10 === 0) {
-            let newCurrentMonsterFrame = this.state.monsterFrameIndex + 1
-            let newMonsterSrcX = (newCurrentMonsterFrame % this.state.monsterSourceColumns) * this.state.monsterSourceWidth
-            this.setState({
-                monsterFrameIndex: newCurrentMonsterFrame,
-                monsterSourceX: newMonsterSrcX
-            })
-        }
-    }
-    
-    
-    
-    
-    
-    
-    
-    renderMonster = () => {
-        monster.src = this.state.monsterImgSrc
-        monster.onload = () => {
-            this.state.context.drawImage(monster, this.state.monsterSourceX, this.state.monsterSourceY, this.state.monsterSourceWidth, this.state.monsterSourceHeight, this.state.monsterDX, this.state.monsterDY, this.state.monsterSpriteWidth, this.state.monsterSpriteHeight )
-        }
-        if (this.state.monsterDX > 220){
-            let newMonsterDX = this.state.monsterDX - this.state.monsterSpeed
-            this.setState({
-                monsterDX: newMonsterDX
-            })
-            this.monsterWalkOn()
-        } else if(this.state.monsterDX <= 220) {
-            let newMonsterSrcWidth = 237
-            let newMonsterSrc = BossIdle
-            this.setState({
-                monsterImgSrc: newMonsterSrc,
-                monsterSourceWidth: newMonsterSrcWidth
-            })
-            this.monsterIdle()
-        }
-    }
-    
-    
-    
-    monsterWalkOn = () => {
-        if (this.state.stopAnimation % 8 === 0) {
-            let newMonsterFrame = this.state.monsterFrameIndex + 1
-            let newMonsterSourceX = (newMonsterFrame % this.state.monsterSourceColumns) * this.state.monsterSourceWidth
-            this.setState({
-                monsterFrameIndex: newMonsterFrame,
-                monsterSourceX: newMonsterSourceX
-            })
-        }
-    }
-    
-    renderTombStone = () => {
-        tombstone.src = this.state.monsterImgSrc
-        tombstone.onload = () => {
-            this.state.context.drawImage(tombstone, 0, 0, 1929, 2210, this.state.monsterDX, this.state.monsterDY, 35, 35 )
-        }
+heroWalkOn = () => {
+    if (this.state.stopAnimation % 5 === 0) {
+        let newCurrentFrame = this.state.playerFrameIndex + 1
+        let newSourceX = (newCurrentFrame % this.state.playerSourceColumns) * this.state.playerSourceWidth
+        this.setState({
+            playerFrameIndex: newCurrentFrame,
+            playerSourceX: newSourceX
+        })
     }
 
+}
 
 
 
-    render() {
-        return (
-            <div>
-                <canvas id="gameCanvas" style={{
-                    width: `${this.state.canvasWidth}px`,
-                    height: `${this.state.canvasHeight}px`,
-                    paddingRight: '0',
-                    paddingLeft: '0',
-                    marginLeft: 'auto',
-                    marginRight: 'auto',
-                    display: 'block',
-                    border: "20px solid white",
-                    backgroundColor: 'grey'
-                }}
-                >
-                    {/* <Hero context={this.state.context} x={this.state.playerX} y={this.state.playerY} /> */}
-                </canvas>
-
-            </div>
-
-
-        )
+heroIdle = () => {
+    if (this.state.stopAnimation % 17 === 0) {
+        this.checkAttack()
+        this.checkAttack()
+        this.checkAttack()
+        this.checkAttack()
+        let newCurrentFrame = this.state.playerFrameIndex + 1
+        let newSourceX = (newCurrentFrame % this.state.playerSourceColumns) * this.state.playerSourceWidth
+        this.setState({
+            playerFrameIndex: newCurrentFrame,
+            playerSourceX: newSourceX
+        })
     }
+}
+
+monsterIdle = () => {
+    if (this.state.stopAnimation % 10 === 0) {
+        let newCurrentMonsterFrame = this.state.monsterFrameIndex + 1
+        let newMonsterSrcX = (newCurrentMonsterFrame % this.state.monsterSourceColumns) * this.state.monsterSourceWidth
+        this.setState({
+            monsterFrameIndex: newCurrentMonsterFrame,
+            monsterSourceX: newMonsterSrcX
+        })
+    }
+}
+
+
+
+
+
+
+
+renderMonster = () => {
+    monster.src = this.state.monsterImgSrc
+    monster.onload = () => {
+        this.state.context.drawImage(monster, this.state.monsterSourceX, this.state.monsterSourceY, this.state.monsterSourceWidth, this.state.monsterSourceHeight, this.state.monsterDX, this.state.monsterDY, this.state.monsterSpriteWidth, this.state.monsterSpriteHeight)
+    }
+    if (this.state.monsterDX > 220) {
+        let newMonsterDX = this.state.monsterDX - this.state.monsterSpeed
+        this.setState({
+            monsterDX: newMonsterDX
+        })
+        this.monsterWalkOn()
+    } else if (this.state.monsterDX <= 220) {
+        let newMonsterSrcWidth = 237
+        let newMonsterSrc = BossIdle
+        this.setState({
+            monsterImgSrc: newMonsterSrc,
+            monsterSourceWidth: newMonsterSrcWidth
+        })
+        this.monsterIdle()
+    }
+}
+
+
+
+monsterWalkOn = () => {
+    if (this.state.stopAnimation % 8 === 0) {
+        let newMonsterFrame = this.state.monsterFrameIndex + 1
+        let newMonsterSourceX = (newMonsterFrame % this.state.monsterSourceColumns) * this.state.monsterSourceWidth
+        this.setState({
+            monsterFrameIndex: newMonsterFrame,
+            monsterSourceX: newMonsterSourceX
+        })
+    }
+}
+
+renderTombStone = () => {
+    tombstone.src = this.state.monsterImgSrc
+    tombstone.onload = () => {
+        this.state.context.drawImage(tombstone, 0, 0, 1929, 2210, this.state.monsterDX, this.state.monsterDY, 35, 35)
+    }
+}
+
+
+
+
+render() {
+    return (
+        <div>
+            <canvas id="gameCanvas" style={{
+                width: `${this.state.canvasWidth}px`,
+                height: `${this.state.canvasHeight}px`,
+                paddingRight: '0',
+                paddingLeft: '0',
+                marginLeft: 'auto',
+                marginRight: 'auto',
+                display: 'block',
+                border: "20px solid white",
+                backgroundColor: 'grey'
+            }}
+            >
+                {/* <Hero context={this.state.context} x={this.state.playerX} y={this.state.playerY} /> */}
+            </canvas>
+
+        </div>
+
+
+    )
+}
 }
 export default GameShow;
 
