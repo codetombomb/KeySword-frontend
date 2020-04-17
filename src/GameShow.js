@@ -5,6 +5,7 @@ import TileSheetOne from './sprites/maps/tile_sheet01.png'
 import HeroSprite from './sprites/hero.png'
 // import HeroIdle from './sprites/heroidle.png'
 import BossWalk from './sprites/bosswalk.png'
+import BossIdle from './sprites/bossidle.png'
 
 const hero = new Image()
 const monster = new Image()
@@ -244,6 +245,18 @@ class GameShow extends Component {
         }
     }
 
+    monsterIdle = () => {
+        debugger
+        if (this.state.stopAnimation % 17 === 0) {
+            let newCurrentMonsterFrame = this.state.monsterFrameIndex + 1
+            let newMonsterSrcX = (newCurrentMonsterFrame % this.state.monsterSourceColumns) * this.state.monsterSourceWidth
+            this.setState({
+                monsterFrameIndex: newCurrentMonsterFrame,
+                monsterSourceX: newMonsterSrcX
+            })
+        }
+    }
+
 
 
 
@@ -261,9 +274,18 @@ class GameShow extends Component {
                 monsterDX: newMonsterDX
             })
             this.monsterWalkOn()
+        } else if(this.state.monsterDX <= 220) {
+            let newMonsterSrcWidth = 237
+            let newMonsterSrc = BossIdle
+            this.setState({
+                monsterImgSrc: newMonsterSrc,
+                monsterSourceWidth: newMonsterSrcWidth
+            })
+            this.monsterIdle()
         }
     }
 
+   
 
     monsterWalkOn = () => {
         if (this.state.stopAnimation % 8 === 0) {
