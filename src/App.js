@@ -20,7 +20,7 @@ class App extends Component {
       activeWords: [],
       wordCounter: 0,
       currentScore: 0,
-      gameTimer: 10,
+      gameTimer: 15,
       gameRunning: false,
       timerId: null,
       userHighScore: 0,
