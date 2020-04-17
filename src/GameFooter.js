@@ -36,40 +36,89 @@ class GameFooter extends Component {
   };
 
   gameStartButton = () => {
-    if (!this.props.gameRunning){
-      return (<button
-        onClick={this.startGame}
-        style={{ height: 40, borderColor: "gray", borderWidth: 5 }}
-      >
-        Start game
-      </button>)}
-  }
+    if (!this.props.gameRunning) {
+      return (
+        <button
+          onClick={this.startGame}
+          style={{ height: 40, borderColor: "gray", borderWidth: 5 }}
+        >
+          Start game
+        </button>
+      );
+    }
+  };
 
   componentDidUpdate = () => {
-    if (this.props.timer === 0){
-      this.props.gameEnd()
+    if (this.props.timer === 0) {
+      this.props.gameEnd();
     }
-  }
+  };
 
   saveButton = () => {
     if (this.props.showSave === true) {
-      return <button onClick={this.props.saveUser}>Save your score</button>
+      return <button onClick={this.props.saveUser}>Save your score</button>;
+    }
+  };
+
+  gameInfo = () => {
+    if (this.props.gameRunning === true) {
+      return (
+        <div style={styleTemplate}>
+          <h3 style={{ color: "white", fontFamily: "Chalkduster" }}>
+            Type the any of the following words in the space below to attack:
+          </h3>
+        </div>
+      );
+    } else {
+      return (
+        <div>
+          <div style={styleTemplate}>
+            <h3 style={{ color: "white", fontFamily: "Chalkduster" }}>
+              Welcome to KeySword!
+            </h3>
+          </div>
+          <div style={styleTemplate}>
+            <p style={{ color: "white", fontFamily: "Chalkduster" }}>
+              A wild skeleton has attacked the city. You, a brave Knight, must
+              defend the villagers by attacking with words!
+            </p>
+          </div>
+          <div style={styleTemplate}>
+            <p style={{ color: "white", fontFamily: "Chalkduster" }}>
+              Why, you might ask? Because that's something we thought we could
+              actually do with React, and it turns out we were kind of right!
+            </p>
+          </div>
+          <div style={styleTemplate}>
+            <p style={{ color: "white", fontFamily: "Chalkduster" }}>
+              Click start below to begin
+            </p>
+          </div>
+        </div>
+      );
+    }
+  };
+
+  gameTimerShow = () => {
+    if (this.props.gameRunning === true) {
+      return (<div style={styleTemplate}>
+        <h3 style={{ color: "red", fontFamily: "Chalkduster" }}>
+          Time left in seconds: |{this.props.timer}|
+        </h3>
+      </div>)
     }
   }
 
   render() {
     return (
       <div>
-        <button onClick={this.props.logOut}>Log Out</button>
-        <h4 style={{ color: "white", fontFamily: "Chalkduster" }}>
-            current highscore:{this.props.highScore}
-          </h4>
-          {this.saveButton()}
-        <div style={styleTemplate}>
+        {this.saveButton()}
+        {this.gameInfo()}
+        {/* <div style={styleTemplate}>
           <h3 style={{ color: "white", fontFamily: "Chalkduster" }}>
             Type the any of the following words in the space below to attack:
           </h3>
-        </div>
+        </div> */}
         <div style={styleTemplate}>
           <h3 style={{ color: "lightgray", fontFamily: "Futura" }}>
             {this.props.words.join(", ")}
@@ -90,13 +139,15 @@ class GameFooter extends Component {
               style={{ height: 20, borderColor: "gray", borderWidth: 5 }}
             />
           </form>
-          { this.gameStartButton()}
+          {this.gameStartButton()}
         </div>
+        {this.gameTimerShow()}
         <div style={styleTemplate}>
-          <h3 style={{ color: "red", fontFamily: "Chalkduster" }}>
-            Time left in seconds:  |{this.props.timer}|
-          </h3>{" "}
+          <h4 style={{ color: "white", fontFamily: "Chalkduster" }}>
+            {this.props.userName}'s current highscore:{this.props.highScore}
+          </h4>
         </div>
+        <button onClick={this.props.logOut}>Log Out</button>
       </div>
     );
   }
