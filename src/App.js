@@ -71,6 +71,7 @@ class App extends Component {
       currentScore: 0,
       gameTimer: 60,
       gameRunning: false,
+      attack: false
     });
   };
 
@@ -78,9 +79,14 @@ class App extends Component {
   checkValue = (word) => {
     const index = this.state.activeWords.indexOf(word);
     if (index > -1) {
+      this.setState({attack: true})
       this.setState(this.state.activeWords.splice(index, 1));
     }
   };
+
+  toggleAttack = () => {
+    this.setState({attack: false})
+  }
 
   //add single word from word array to active words on rotating basis without altering original word array
   addWordToActiveWord = () => {

@@ -109,6 +109,11 @@ class GameFooter extends Component {
               Type the any of the following words in the space below to attack:
             </h3>
           </div>
+          <div style={styleTemplate}>
+          <h3 style={{ color: "lightgray", fontFamily: "Futura" }}>
+            {this.props.words.join(", ")}
+          </h3>
+        </div>
         </div>
       );
     } else {
@@ -165,11 +170,11 @@ class GameFooter extends Component {
         {this.gameInfo()}
         {this.saveButton()}
 
-        <div style={styleTemplate}>
+        {/* <div style={styleTemplate}>
           <h3 style={{ color: "lightgray", fontFamily: "Futura" }}>
             {this.props.words.join(", ")}
           </h3>
-        </div>
+        </div> */}
         {/* <div style={styleTemplate}>
           <p style={{ color: "white" }}>
             {leftSword} {this.props.currentScore} {rightSword}
