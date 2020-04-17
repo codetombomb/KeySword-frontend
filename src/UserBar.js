@@ -105,7 +105,7 @@ class UserBar extends Component {
           </label>
         </div>
         <div style={centerStyle}>
-          <h5>Already played?</h5>
+          <h5>Click here if you have an account already to log in</h5>
         </div>
       </div>
     );
