@@ -6,9 +6,11 @@ import HeroSprite from './sprites/hero.png'
 // import HeroIdle from './sprites/heroidle.png'
 import BossWalk from './sprites/bosswalk.png'
 import BossIdle from './sprites/bossidle.png'
+import DeadMonster from './sprites/tombstone.png'
 
 const hero = new Image()
 const monster = new Image()
+const tombstone = new Image()
 
 class GameShow extends Component {
     constructor() {
@@ -185,12 +187,24 @@ class GameShow extends Component {
         this.renderMiddleGround()
         this.renderForeground()
         this.renderHero()
+        if(this.props.gameState){
         this.renderMonster()
-
-
-
+        } else {
+            let newImage = DeadMonster 
+            this.setState({
+                monsterImgSrc: newImage
+            })
+            this.renderTombStone()
+        }
         let stopId = window.requestAnimationFrame(this.update)
         this.setState({ stopAnimation: stopId })
+    }
+
+    renderTombStone = () => {
+        tombstone.src = this.state.monsterImgSrc
+        tombstone.onload = () => {
+            this.state.context.drawImage(tombstone, 0, 0, 1929, 2210, this.state.monsterDX, this.state.monsterDY, 35, 35 )
+        }
     }
 
 
@@ -246,8 +260,7 @@ class GameShow extends Component {
     }
 
     monsterIdle = () => {
-        debugger
-        if (this.state.stopAnimation % 17 === 0) {
+        if (this.state.stopAnimation % 10 === 0) {
             let newCurrentMonsterFrame = this.state.monsterFrameIndex + 1
             let newMonsterSrcX = (newCurrentMonsterFrame % this.state.monsterSourceColumns) * this.state.monsterSourceWidth
             this.setState({
