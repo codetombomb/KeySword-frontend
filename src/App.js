@@ -20,12 +20,13 @@ class App extends Component {
       activeWords: [],
       wordCounter: 0,
       currentScore: 0,
-      gameTimer: 15,
+      gameTimer: 40,
       gameRunning: false,
       timerId: null,
       userHighScore: 0,
       showSave: false,
       firstRound: true,
+      attack: false
     };
   }
 
@@ -170,6 +171,8 @@ class App extends Component {
           words={this.state.level}
           gameState={this.state.gameRunning}
           time={this.state.gameTimer}
+          attack={this.state.attack}
+          toggleAttack={this.toggleAttack}
         />
       );
     } else {

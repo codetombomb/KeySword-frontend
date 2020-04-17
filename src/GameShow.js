@@ -186,6 +186,7 @@ class GameShow extends Component {
         this.renderBackGound()
         this.renderMiddleGround()
         this.renderForeground()
+        // this.checkAttack()
         this.renderHero()
         if(this.props.gameState){
         this.renderMonster()
@@ -200,15 +201,24 @@ class GameShow extends Component {
         this.setState({ stopAnimation: stopId })
     }
 
-    renderTombStone = () => {
-        tombstone.src = this.state.monsterImgSrc
-        tombstone.onload = () => {
-            this.state.context.drawImage(tombstone, 0, 0, 1929, 2210, this.state.monsterDX, this.state.monsterDY, 35, 35 )
-        }
+ 
+
+  checkAttack = () => {
+    if (this.props.attack){
+        // debugger
+        let playerSourceY = 280
+        let playerSourceX = 525
+        this.setState({
+            playerSourceY,
+            playerSourceX
+        })
+        this.props.toggleAttack()
     }
+  }
 
-
-
+    
+    
+    
     renderHero = () => {
 
         hero.src = this.state.heroImgSrc // Set the hero sprite img src
@@ -250,6 +260,10 @@ class GameShow extends Component {
 
     heroIdle = () => {
         if (this.state.stopAnimation % 17 === 0) {
+            this.checkAttack()
+            this.checkAttack()
+            this.checkAttack()
+            this.checkAttack()
             let newCurrentFrame = this.state.playerFrameIndex + 1
             let newSourceX = (newCurrentFrame % this.state.playerSourceColumns) * this.state.playerSourceWidth
             this.setState({
@@ -258,7 +272,7 @@ class GameShow extends Component {
             })
         }
     }
-
+    
     monsterIdle = () => {
         if (this.state.stopAnimation % 10 === 0) {
             let newCurrentMonsterFrame = this.state.monsterFrameIndex + 1
@@ -269,13 +283,13 @@ class GameShow extends Component {
             })
         }
     }
-
-
-
-
-
-
-
+    
+    
+    
+    
+    
+    
+    
     renderMonster = () => {
         monster.src = this.state.monsterImgSrc
         monster.onload = () => {
@@ -297,9 +311,9 @@ class GameShow extends Component {
             this.monsterIdle()
         }
     }
-
-   
-
+    
+    
+    
     monsterWalkOn = () => {
         if (this.state.stopAnimation % 8 === 0) {
             let newMonsterFrame = this.state.monsterFrameIndex + 1
@@ -310,7 +324,13 @@ class GameShow extends Component {
             })
         }
     }
-
+    
+    renderTombStone = () => {
+        tombstone.src = this.state.monsterImgSrc
+        tombstone.onload = () => {
+            this.state.context.drawImage(tombstone, 0, 0, 1929, 2210, this.state.monsterDX, this.state.monsterDY, 35, 35 )
+        }
+    }
 
 
 
