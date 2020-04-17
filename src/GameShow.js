@@ -1,7 +1,7 @@
 
 import React, { Component } from 'react';
 import TileSheetOne from './sprites/maps/tile_sheet01.png'
-import HeroSprite from './sprites/herowalk.png'
+import HeroSprite from './sprites/hero.png'
 import HeroIdle from './sprites/heroidle.png'
 import BossWalk from './sprites/bosswalk.png'
 
@@ -22,17 +22,31 @@ class GameShow extends Component {
             gameRunning: false,
             timeCounter: 120,
             stopAnimation: null,
-            playerX: 32,
+            //player sprite
+            heroImgSrc: HeroSprite,
+            playerX: 32, 
             playerY: 0,
             playerSourceX: 0,
             playerSourceY: 0,
+            playerSourceWidth: 25,
+            playerSourceHeight: 25,
             playerSourceColumns: 6,
             playerDX: 0,
-            playerDY: 100,
-            playerSpriteHeight: 24,
-            playerSpriteWidth: 16,
+            playerDY: 105,
+            playerSpriteHeight: 20,
+            playerSpriteWidth: 14,
             playerCurrentFrame: 0,
-            playerSpriteFrameSet: [[0, 1, 2, 3, 4, 5], [6, 7, 8, 9, 10, 11], [12, 13, 14, 15]], // jump, walk right, idle
+            //monster sprite 
+            monsterX: 275, 
+            monsterY: 51,
+            monsterSourceX: 0,
+            monsterSourceY: 0,
+            monsterSourceColumns: 6,
+            monsterDX: 0,
+            monsterDY: 100,
+            monsterSpriteHeight: 296,
+            monsterSpriteWidth: 200,
+            monsterCurrentFrame: 0,
             
             foregroundMatrix: [
                 64, 64, 43, 35, 17, 28, 20, 64, 64, 64, 64, 64, 64, 64, 64, 43, 4, 17, 17,
@@ -140,58 +154,70 @@ class GameShow extends Component {
     renderHero = () => {
         // debugger
         // const hero = new Image()
-        this.updateHero()
-        this.setHeroSprite()
+        // this.setHeroSprite()
+        hero.src = this.state.heroImgSrc
         hero.onload = () => {
-            console.log("drawing hero")
-            this.state.context.drawImage(hero, this.state.playerSourceX, this.state.playerSourceY, this.state.playerSpriteWidth, this.state.playerSpriteHeight, this.state.playerDX, this.state.playerDY, 32, 32)
+            // console.log("drawing hero")
+            this.state.context.drawImage(hero, this.state.playerSourceX, this.state.playerSourceY, this.state.playerSpriteWidth, this.state.playerSpriteHeight, this.state.playerDX, this.state.playerDY, this.state.playerSourceWidth, this.state.playerSourceHeight )
         }
+        this.updateHero()
         
     }
     
     renderMonster = () => {
+        
         const monster = new Image()
         monster.src = BossWalk
         monster.onload = () => {
-            this.state.context.drawImage(monster, 0, 0, 175, 296, 225, 61, 35, 35)
+            this.state.context.drawImage(monster, this.state.monsterSourceX, this.state.monsterSourceY, this.state.monsterSpriteWidth, this.state.monsterSpriteHeight, this.state.monsterX, this.state.monsterY, 45, 45)
         }
+        // this.updateMonster()
         
     }
     
-    setHeroSprite = () => {
-        if (this.state.playerDX < 80) {
-            hero.src = HeroSprite
-        } else if (this.state.playerDX = 80) {
-            hero.src = HeroIdle
-        }
-    }
+    // setHeroSprite = () => {
+    //     if (this.state.playerDX < 80) {
+    //         hero.src = HeroSprite
+    //     } else if (this.state.playerDX = 80) {
+    //         debugger
+    //         hero.src = HeroIdle
+    //     }
+    // }
     
     updateHero = () => {
         if (this.state.playerDX < 80) {
-            console.log('updating hero')
+    //         // console.log('updating hero')
             let newPos = this.state.playerDX + 1
             let newSourceX = Math.floor(this.state.playerCurrentFrame % this.state.playerSourceColumns) * 16
-            this.updateFrame()
+            this.updateHeroFrame()
             this.setState({
                 playerDX: newPos,
                 playerSourceX: newSourceX
             })
-        } else if (this.state.playerDX = 80) {
-            hero.src = HeroIdle
-            this.setState({
-                playerSourceColumns: 4,
-                playerSpriteHeight: 25,
-                playerSpriteWidth: 16,
-                playerDX: 81
-            })
-        } else if(this.state.playerDX > 80) {
-            this.idleFrame()            
         }
+    //     } else if (this.state.playerDX === 80 && this.state.playerDX !== 81) {
+    //         // hero.src = HeroIdle
+    //         let newDX = this.state.playerDX + 1
+    //         let newSourceHeight = this.state.playerSourceHeight - 2
+    //         this.setState({
+    //             playerSourceColumns: 4,
+    //             playerSourceHeight: newSourceHeight,
+    //             playerSourceY: 0,
+    //             playerSpriteHeight: 27,
+    //             playerSpriteWidth: 16,
+    //             playerDX: newDX,
+    //             // playerDY: 
+    //         })
+    //     } else if (this.state.playerDX === 80 ){
+    //         debugger
+    //         console.log("in the idle frame loop")
+    //         this.idleFrame()            
+    //     }
     }
-
+ 
 
     // Function that will update the coordinates on the sprite sheet for cutout
-    updateFrame = () => {
+    updateHeroFrame = () => {
         if (this.state.stopAnimation % 4 === 0) {
             let newX = Math.floor(++this.state.playerCurrentFrame % this.state.playerSourceColumns)
             this.setState({
