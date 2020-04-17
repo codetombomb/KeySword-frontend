@@ -7,6 +7,7 @@ import HeroSprite from './sprites/hero.png'
 import BossWalk from './sprites/bosswalk.png'
 
 const hero = new Image()
+const monster = new Image()
 
 class GameShow extends Component {
     constructor() {
@@ -32,16 +33,19 @@ class GameShow extends Component {
             playerFrame: null,
 
             //monster sprite 
-            monsterX: 275,
-            monsterY: 51,
+            monsterImgSrc: BossWalk,
             monsterSourceX: 0,
             monsterSourceY: 0,
-            monsterSourceColumns: 6,
-            monsterDX: 0,
-            monsterDY: 100,
-            monsterSpriteHeight: 296,
-            monsterSpriteWidth: 200,
-            monsterCurrentFrame: 0,
+            monsterSourceWidth: 177,
+            monsterSourceHeight: 296,
+            monsterSourceColumns: 4,
+            monsterDX: 275,
+            monsterDY: 62,
+            monsterSpriteHeight: 35,
+            monsterSpriteWidth: 25,
+            monsterSpeed: .3,
+            monsterFrameIndex: 0,
+            monsterFrame: null,
 
             //Game attr
             gameRunning: false,
@@ -179,14 +183,12 @@ class GameShow extends Component {
         this.renderBackGound()
         this.renderMiddleGround()
         this.renderForeground()
-        // this.updateHero()
         this.renderHero()
         this.renderMonster()
 
 
 
         let stopId = window.requestAnimationFrame(this.update)
-        // debugger
         this.setState({ stopAnimation: stopId })
     }
 
@@ -212,7 +214,6 @@ class GameShow extends Component {
         }
         else if (this.state.playerDX >= 80) {
             let newPlayerSourceY = 140
-            debugger
             this.setState({ playerSourceY: newPlayerSourceY })
             this.heroIdle()
         }
@@ -222,7 +223,6 @@ class GameShow extends Component {
         if (this.state.stopAnimation % 5 === 0) {
             let newCurrentFrame = this.state.playerFrameIndex + 1
             let newSourceX = (newCurrentFrame % this.state.playerSourceColumns) * this.state.playerSourceWidth
-            // debugger
             this.setState({
                 playerFrameIndex: newCurrentFrame,
                 playerSourceX: newSourceX
@@ -237,7 +237,6 @@ class GameShow extends Component {
         if (this.state.stopAnimation % 17 === 0) {
             let newCurrentFrame = this.state.playerFrameIndex + 1
             let newSourceX = (newCurrentFrame % this.state.playerSourceColumns) * this.state.playerSourceWidth
-            // debugger
             this.setState({
                 playerFrameIndex: newCurrentFrame,
                 playerSourceX: newSourceX
@@ -252,25 +251,30 @@ class GameShow extends Component {
 
 
     renderMonster = () => {
-
-        const monster = new Image()
-        monster.src = BossWalk
+        monster.src = this.state.monsterImgSrc
         monster.onload = () => {
-            this.state.context.drawImage(monster, this.state.monsterSourceX, this.state.monsterSourceY, this.state.monsterSpriteWidth, this.state.monsterSpriteHeight, this.state.monsterX, this.state.monsterY, 45, 45)
+            this.state.context.drawImage(monster, this.state.monsterSourceX, this.state.monsterSourceY, this.state.monsterSourceWidth, this.state.monsterSourceHeight, this.state.monsterDX, this.state.monsterDY, this.state.monsterSpriteWidth, this.state.monsterSpriteHeight )
         }
-        // this.updateMonster()
-
+        if (this.state.monsterDX > 220){
+            let newMonsterDX = this.state.monsterDX - this.state.monsterSpeed
+            this.setState({
+                monsterDX: newMonsterDX
+            })
+            this.monsterWalkOn()
+        }
     }
 
-   
 
-
-
-
-
-
-
-
+    monsterWalkOn = () => {
+        if (this.state.stopAnimation % 8 === 0) {
+            let newMonsterFrame = this.state.monsterFrameIndex + 1
+            let newMonsterSourceX = (newMonsterFrame % this.state.monsterSourceColumns) * this.state.monsterSourceWidth
+            this.setState({
+                monsterFrameIndex: newMonsterFrame,
+                monsterSourceX: newMonsterSourceX
+            })
+        }
+    }
 
 
 
