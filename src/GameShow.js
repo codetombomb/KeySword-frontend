@@ -1,8 +1,9 @@
 
+
 import React, { Component } from 'react';
 import TileSheetOne from './sprites/maps/tile_sheet01.png'
 import HeroSprite from './sprites/hero.png'
-import HeroIdle from './sprites/heroidle.png'
+// import HeroIdle from './sprites/heroidle.png'
 import BossWalk from './sprites/bosswalk.png'
 
 const hero = new Image()
@@ -14,30 +15,24 @@ class GameShow extends Component {
             canvasWidth: 800,
             canvasHeight: 400,
             context: null,
-            levelBackgroundImage: null,
-            tileSheetColumns: 8,
-            tileHeight: 16,
-            tileWidth: 16,
-            matrixColumns: 19,
-            gameRunning: false,
-            timeCounter: 120,
-            stopAnimation: null,
             //player sprite
-            heroImgSrc: HeroSprite,
-            playerX: 32, 
-            playerY: 0,
-            playerSourceX: 0,
-            playerSourceY: 0,
-            playerSourceWidth: 25,
-            playerSourceHeight: 25,
-            playerSourceColumns: 6,
-            playerDX: 0,
-            playerDY: 105,
-            playerSpriteHeight: 20,
-            playerSpriteWidth: 14,
-            playerCurrentFrame: 0,
+            heroImgSrc: HeroSprite, //Player sprite sheet image source
+            playerSourceX: 0, //Player sprite sheet x coord for cutting start
+            playerSourceY: 0, //Player sprite sheet y coord for cutting start
+            playerSourceWidth: 175,  //How many pixels we are cutting across form the playerSourceX 
+            playerSourceHeight: 140,  //How many pixels we are cutting across form the playerSourceY
+            playerSourceColumns: 6, // How many columns (animmations in a row) are in the sprite sheet 
+            playerDX: -20, // Player Destination x position on the canvas
+            playerDY: 95, // Player Destination y position on the canvas
+            playerSpriteWidth: 45, // How wide the sprite will show up on the canvas
+            playerSpriteHeight: 40, // How tall the sprite will show up on the canvas
+            playerSpeed: .5,
+            playerFrameIndex: 0,
+            playerFrameSet: [[0, 1, 2, 3, 4, 5], [6, 7, 8, 9, 10, 11], [12, 13, 14, 15, 16, 17]],
+            playerFrame: null,
+
             //monster sprite 
-            monsterX: 275, 
+            monsterX: 275,
             monsterY: 51,
             monsterSourceX: 0,
             monsterSourceY: 0,
@@ -47,7 +42,21 @@ class GameShow extends Component {
             monsterSpriteHeight: 296,
             monsterSpriteWidth: 200,
             monsterCurrentFrame: 0,
-            
+
+            //Game attr
+            gameRunning: false,
+            timeCounter: 120,
+            //Animation
+
+            stopAnimation: null,
+            count: 0,
+            delay: 10,
+            //Background 
+
+            tileSheetColumns: 8, //tilesheet dimensions 175 × 141
+            tileHeight: 16,
+            tileWidth: 16,
+            matrixColumns: 19,
             foregroundMatrix: [
                 64, 64, 43, 35, 17, 28, 20, 64, 64, 64, 64, 64, 64, 64, 64, 43, 4, 17, 17,
                 64, 64, 64, 43, 35, 17, 11, 20, 64, 64, 64, 64, 64, 64, 64, 64, 16, 17, 17,
@@ -87,24 +96,14 @@ class GameShow extends Component {
             ]
         }
     }
-    
-    componentDidMount() {
-        // debugger;
-        const cvs = document.getElementById("gameCanvas")
-        const ctx = cvs.getContext('2d')
-        this.setState({ context: ctx })
-        this.renderBackGound()
-        this.renderMiddleGround()
-        this.renderForeground()
-    }
-    
 
-    
+    // Three layers of background
+    //1
     renderBackGound = () => {
         const bgTile = new Image()
         bgTile.src = TileSheetOne
         bgTile.onload = () => {
-            
+
             for (let i = this.state.backgroundMatrix.length - 1; i > -1; --i) {
                 let worldMatrix = this.state.backgroundMatrix[i]
                 let source_x = (worldMatrix % this.state.tileSheetColumns) * this.state.tileWidth
@@ -115,12 +114,12 @@ class GameShow extends Component {
             }
         }
     }
-    
+    //2
     renderMiddleGround = () => {
         const mgTile = new Image()
         mgTile.src = TileSheetOne
         mgTile.onload = () => {
-            
+
             for (let i = this.state.middlegroundMatrix.length - 1; i > -1; --i) {
 
                 let worldMatrix = this.state.middlegroundMatrix[i]
@@ -131,14 +130,14 @@ class GameShow extends Component {
                 this.state.context.drawImage(mgTile, source_x, source_y, 16, 16, destination_x, destination_y, this.state.tileWidth, this.state.tileHeight)
             }
         }
-        
-    }
 
+    }
+    //3
     renderForeground = () => {
         const tile = new Image()
         tile.src = TileSheetOne
         tile.onload = () => {
-            
+
             for (let i = this.state.foregroundMatrix.length - 1; i > -1; --i) {
                 let worldMatrix = this.state.foregroundMatrix[i]
                 let source_x = (worldMatrix % this.state.tileSheetColumns) * this.state.tileWidth
@@ -150,107 +149,31 @@ class GameShow extends Component {
             }
         }
     }
-    
-    renderHero = () => {
-        // debugger
-        // const hero = new Image()
-        // this.setHeroSprite()
-        hero.src = this.state.heroImgSrc
-        hero.onload = () => {
-            // console.log("drawing hero")
-            this.state.context.drawImage(hero, this.state.playerSourceX, this.state.playerSourceY, this.state.playerSpriteWidth, this.state.playerSpriteHeight, this.state.playerDX, this.state.playerDY, 32, 32)
-        }
-        this.updateHero()
-        
-    }
-    
-    renderMonster = () => {
-        
-        const monster = new Image()
-        monster.src = BossWalk
-        monster.onload = () => {
-            this.state.context.drawImage(monster, this.state.monsterSourceX, this.state.monsterSourceY, this.state.monsterSpriteWidth, this.state.monsterSpriteHeight, this.state.monsterX, this.state.monsterY, 45, 45)
-        }
-        // this.updateMonster()
-        
-    }
-    
-    // setHeroSprite = () => {
-    //     if (this.state.playerDX < 80) {
-    //         hero.src = HeroSprite
-    //     } else if (this.state.playerDX = 80) {
-    //         debugger
-    //         hero.src = HeroIdle
-    //     }
-    // }
-    
-    updateHero = () => {
-        if (this.state.playerDX < 80) {
-            // console.log('updating hero')
-            let newPos = this.state.playerDX + 1
-            let newSourceX = Math.floor(this.state.playerCurrentFrame % this.state.playerSourceColumns) * 16
-            this.updateHeroFrame()
-            this.setState({
-                playerDX: newPos,
-                playerSourceX: newSourceX
-            })
-        }
-    //     } else if (this.state.playerDX === 80 && this.state.playerDX !== 81) {
-    //         // hero.src = HeroIdle
-    //         let newDX = this.state.playerDX + 1
-    //         let newSourceHeight = this.state.playerSourceHeight - 2
-    //         this.setState({
-    //             playerSourceColumns: 4,
-    //             playerSourceHeight: newSourceHeight,
-    //             playerSourceY: 0,
-    //             playerSpriteHeight: 27,
-    //             playerSpriteWidth: 16,
-    //             playerDX: newDX,
-    //             // playerDY: 
-    //         })
-    //     } else if (this.state.playerDX === 80 ){
-    //         debugger
-    //         console.log("in the idle frame loop")
-    //         this.idleFrame()            
-    //     }
-    }
- 
 
-    // Function that will update the coordinates on the sprite sheet for cutout
-    updateHeroFrame = () => {
-        if (this.state.stopAnimation % 4 === 0) {
-            let newX = Math.floor(++this.state.playerCurrentFrame % this.state.playerSourceColumns)
-            this.setState({
-                playerCurrentFrame: newX
-            })
-        }
+    componentDidMount() {
+        const cvs = document.getElementById("gameCanvas")
+        // Configure canvas to draw on
+        const ctx = cvs.getContext('2d')
+        this.setState({ context: ctx })
+        //Draw Background
+        this.renderBackGound()
+        this.renderMiddleGround()
+        this.renderForeground()
     }
 
-    idleFrame = () => {
-        if (this.state.stopAnimation % 5 === 0) {
-            let newX = Math.floor(++this.state.playerCurrentFrame % this.state.playerSourceColumns)
-            this.setState({
-                playerCurrentFrame: newX
-            })
-        }
-    }
-
-
-
-
-
-    playGame = () => {
-        this.update()
-    }
 
     componentDidUpdate() {
         if (this.props.gameState === true && this.state.stopAnimation === null) {
             this.playGame()
         }
     }
+    //Point of entry for Game loop
+    playGame = () => {
+        this.update()
+    }
 
 
-
+    //Main game loop -- calling functions that redraw the stage 60 times per second
     update = () => {
         // console.log("game is running")
         this.renderBackGound()
@@ -266,6 +189,86 @@ class GameShow extends Component {
         // debugger
         this.setState({ stopAnimation: stopId })
     }
+
+
+
+    renderHero = () => {
+
+        hero.src = this.state.heroImgSrc // Set the hero sprite img src
+        hero.onload = () => {
+            // console.log(this.state.playerSourceX)
+            this.state.context.drawImage(hero, this.state.playerSourceX, this.state.playerSourceY, this.state.playerSourceWidth, this.state.playerSourceHeight, this.state.playerDX, this.state.playerDY, this.state.playerSpriteWidth, this.state.playerSpriteHeight)
+            console.log("drawing image")
+        }
+
+        if (this.state.playerDX < 80) {
+            let newDX = this.state.playerDX + this.state.playerSpeed
+            let newCount = this.state.count + 1
+            this.setState({
+                playerDX: newDX,
+                count: newCount
+            })
+            this.heroWalkOn()
+        }
+        else if (this.state.playerDX >= 80) {
+            let newPlayerSourceY = 140
+            debugger
+            this.setState({ playerSourceY: newPlayerSourceY })
+            this.heroIdle()
+        }
+    }
+
+    heroWalkOn = () => {
+        if (this.state.stopAnimation % 5 === 0) {
+            let newCurrentFrame = this.state.playerFrameIndex + 1
+            let newSourceX = (newCurrentFrame % this.state.playerSourceColumns) * this.state.playerSourceWidth
+            // debugger
+            this.setState({
+                playerFrameIndex: newCurrentFrame,
+                playerSourceX: newSourceX
+            })
+        }
+
+    }
+
+
+
+    heroIdle = () => {
+        if (this.state.stopAnimation % 17 === 0) {
+            let newCurrentFrame = this.state.playerFrameIndex + 1
+            let newSourceX = (newCurrentFrame % this.state.playerSourceColumns) * this.state.playerSourceWidth
+            // debugger
+            this.setState({
+                playerFrameIndex: newCurrentFrame,
+                playerSourceX: newSourceX
+            })
+        }
+    }
+
+
+
+
+
+
+
+    renderMonster = () => {
+
+        const monster = new Image()
+        monster.src = BossWalk
+        monster.onload = () => {
+            this.state.context.drawImage(monster, this.state.monsterSourceX, this.state.monsterSourceY, this.state.monsterSpriteWidth, this.state.monsterSpriteHeight, this.state.monsterX, this.state.monsterY, 45, 45)
+        }
+        // this.updateMonster()
+
+    }
+
+   
+
+
+
+
+
+
 
 
 
