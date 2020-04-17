@@ -253,6 +253,7 @@ class App extends Component {
             }}
           >
             <GameFooter
+            userName={this.state.activeUser[0].username}
               saveUser={this.saveUser}
               showSave={this.state.showSave}
               highScore={this.state.userHighScore}
